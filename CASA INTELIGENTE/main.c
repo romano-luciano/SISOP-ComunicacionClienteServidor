@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include "Habitaciones.h"
 
 int main()
 {
-    printf("Hello world!\n");
+    t_habitacion habitaciones[CANT_HABITACIONES];
+
     return 0;
 }
