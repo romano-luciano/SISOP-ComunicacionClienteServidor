@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1746903487 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
+	<stdio.h>
+	<stdlib.h>
+	<pthread.h>
+
