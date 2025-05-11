@@ -1,6 +1,8 @@
 #ifndef HABITACIONES_H_INCLUDED
 #define HABITACIONES_H_INCLUDED
+
 #define CANT_HABITACIONES 5
+#include <stdio.h>
 #include "Dispositivos.h"
 
 typedef struct
@@ -14,7 +16,7 @@ typedef struct
 
 }t_habitacion;
 
-void inicializar_habitaciones(t_habitacion * habitaciones);
+void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo);
 ///PATIO|3|FALSE;50;BLANCO|FALSE;10;ROJO|FALSE;60;VERDE|
 ///BANIO|1|FALSE;50;BLANCO|0|0
 #endif // HABITACIONES_H_INCLUDED

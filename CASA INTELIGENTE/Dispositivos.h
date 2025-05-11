@@ -2,6 +2,7 @@
 #define DISPOSITIVOS_H_INCLUDED
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <pthread.h>
 
