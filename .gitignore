@@ -50,3 +50,27 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Ignorar carpetas de compilación
+bin/
+obj/
+Debug/
+Release/
+
+# Ignorar archivos ejecutables
+*.exe
+*.out
+*.o
+
+# Ignorar archivos de depuración
+*.log
+*.tmp
+
+# Ignorar archivos de sistema (Windows)
+Thumbs.db
+desktop.ini
+
+# Ignorar carpetas de configuraciones de IDEs (como Visual Studio, etc)
+.vscode/
+.idea/
+
