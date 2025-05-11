@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Dispositivos.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Dispositivos.h" />
 		<Unit filename="Habitaciones.c">
 			<Option compilerVar="CC" />
