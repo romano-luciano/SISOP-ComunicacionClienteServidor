@@ -2,6 +2,7 @@
 #define HABITACIONES_H_INCLUDED
 
 #define CANT_HABITACIONES 5
+#define TAM_BUFFER 50
 #include <stdio.h>
 #include "Dispositivos.h"
 

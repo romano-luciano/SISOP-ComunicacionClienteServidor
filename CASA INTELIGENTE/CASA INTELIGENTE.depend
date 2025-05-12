@@ -4,3 +4,22 @@
 	<stdlib.h>
 	<pthread.h>
 
+1747011357 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.c
+	"Dispositivos.h"
+
+1747011357 /home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.h
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<pthread.h>
+
+1747013083 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.c
+	"Habitaciones.h"
+
+1747013083 /home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.h
+	<stdio.h>
+	"Dispositivos.h"
+
+1747012792 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
+	"Habitaciones.h"
+
