@@ -17,6 +17,7 @@ typedef struct
 
 }t_habitacion;
 
+void cargar_dispositivos(t_habitacion *hab, int cant, char *cad, int disp);
 void trozar_aire(char * punt, t_habitacion * h);
 void trozar_luz(char * punt, t_habitacion * h);
 void trozar_tele(char * punt, t_habitacion * h);

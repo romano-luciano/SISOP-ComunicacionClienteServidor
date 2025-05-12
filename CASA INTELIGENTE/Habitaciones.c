@@ -5,54 +5,81 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
     FILE *pf = fopen("Archivos/Habitaciones.txt", "rt");
     char buffer[TAM_BUFFER];
     char * pipe, * punt = buffer;
-    int i = 0;
+    int i = 0, nDisp, cant_disp;
     if(!pf)
         printf("Error al abrir el archivo: %s\n", archivo);
-    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\r'))
+    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\n'))
     {
-        ///Leemos nombre de habitacion
         printf("\n");
+        ///BUSCAMOS PIPE Y LEEMOS NOMBRE
         pipe = strchr(buffer,'|');
         if(pipe)
             *pipe = '\0';
         strcpy(habitaciones[i].nombre_habitacion,buffer);
-        printf("%s|",habitaciones[i].nombre_habitacion);
-        pipe ++;
-        /// Nos posicionamos en cantidad de luces
-        punt = pipe;
-        pipe = strchr(pipe,'|');///
+        printf("%s|",habitaciones[i].nombre_habitacion);///PRINT
+        for(nDisp = 0;nDisp < 3;nDisp++){
+            ///BUSCAMOS PIPE Y LEEMOS CANTIDAD
+            punt = pipe + 1;
+            pipe = strchr(punt,'|');
+            if(pipe)
+                *pipe = '\0';
+            else
+            {
+                pipe = strchr(punt,'\n'); ///cmabiar a '\r' en linux
+                *pipe = '\0';
+            }
+            cant_disp = atoi(punt);
+            ///SI HAY CANTIDAD, BUSCAMOS PIPE Y LEEMOS DISPOSITIVOS
+            if(cant_disp > 0){
+                punt = pipe + 1;
+                pipe = strchr(punt,'|');
+                if(pipe)
+                    *pipe = '\0';
+            }
+            ///EN 'CARGAR' PREGUNTAMOS SI EL NUMERO DE 'DISPO' ES MAYOR A 0
+            cargar_dispositivos(&habitaciones[i], cant_disp, punt, nDisp);
+        }
+/*
+        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE LUCES
+        punt = pipe + 1;
+        pipe = strchr(punt,'|');
         if(pipe)
             *pipe = '\0';
+        else{
+            pipe = strchr(punt,'\n');
+            *pipe = '\0';
+        }
         habitaciones[i].cant_luces = atoi(punt);
-        ///Movemos pipe a el campo de las luces
-        pipe ++;
-        punt = pipe;///cadena luces
-        pipe = strchr(pipe,'|');
-        ///Pisamos el | final de campo de luces
+        printf("cant: %d|",habitaciones[i].cant_luces);///PRINT
+        ///BUSCAMOS PIPE Y LEEMOS LUCES, SI HAY LUCES
+        if(habitaciones[i].cant_luces > 0){
+            punt = pipe + 1;
+            pipe = strchr(punt,'|');
+            if(pipe)
+                *pipe = '\0';
+            trozar_luz(punt,&habitaciones[i]);
+        }
+        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE AIRES
+        punt = pipe + 1;
+        pipe = strchr(punt,'|');
         if(pipe)
             *pipe = '\0';
-        ///
-        pipe ++; ///cantidad de aires
-        trozar_luz(punt,&habitaciones[i]);
-        punt = pipe;///cantidad de aires
-        printf("cant_luces : %d|",habitaciones[i].cant_luces);
-        pipe = strchr(pipe,'|');///fin de cant de aires
-        if(pipe)
+        else{
+            pipe = strchr(punt,'\n');
             *pipe = '\0';
+        }
         habitaciones[i].cant_aires = atoi(punt);
+        ///BUSCAMOS PIPE Y LEEMOS AIRES, SI HAY AIRES
         if(habitaciones[i].cant_aires > 0){
-            pipe ++;///ERROR o campo aires o hay_teles
-            punt = pipe;
-            ///Pisamos el | final de campo de aires
-            pipe = strchr(pipe,'|');
+            punt = pipe + 1;
+            pipe = strchr(punt,'|');
             if(pipe)
                 *pipe = '\0';
             trozar_aire(punt,&habitaciones[i]);
         }
-        pipe ++;//hay_tele
-        punt = pipe;
-        //
-        pipe = strchr(pipe,'|');
+        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE SMART TV
+        punt = pipe + 1;
+        pipe = strchr(punt,'|');
         if(pipe)
             *pipe = '\0';
         else{
@@ -60,17 +87,36 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
             *pipe = '\0';
         }
         habitaciones[i].hay_tele = atoi(punt);
+        ///BUSCAMOS PIPE Y LEEMOS SMART TV, SI HAY TV
         if(habitaciones[i].hay_tele){
-            pipe ++;
-            punt = pipe;
+            punt = pipe + 1;
+            pipe = strchr(punt,'|');
+            if(pipe)
+                *pipe = '\0';
             trozar_tele(punt,&habitaciones[i]);
         }
-
+*/
         i++;
     }
     fclose(pf);
 
 }
+void cargar_dispositivos(t_habitacion *hab, int cant, char *cad, int disp)
+{
+    if(disp == LUCES){
+        hab->cant_luces = cant;
+        cant?trozar_luz(cad, hab):NULL;
+    }
+    if(disp == AIRES){
+        hab->cant_aires = cant;
+        cant?trozar_aire(cad, hab):NULL;
+    }
+    if(disp == SMART_TV){
+        hab->hay_tele = cant;
+        cant?trozar_tele(cad, hab):NULL;
+    }
+}
+
 void trozar_luz(char * punt, t_habitacion * h)
 {
     int estado;
@@ -130,7 +176,7 @@ void trozar_tele(char * punt, t_habitacion * h)
     h->tele = (t_televisor *) malloc(sizeof(t_televisor));
     if(!h->tele)
         return;
-    salto = strchr(punt,'\r'); /// Cambiar a '\r' para linux
+    salto = strchr(punt,'\n'); /// Cambiar a '\r' para linux
     *salto = '\0';
     sscanf(punt,"%d;%d;%s",
            &estado,

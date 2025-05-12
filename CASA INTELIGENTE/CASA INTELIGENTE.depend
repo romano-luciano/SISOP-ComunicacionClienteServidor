@@ -37,3 +37,22 @@
 1747025765 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.h
 	"Dispositivos.h"
 
+1747088402 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.c
+	"Dispositivos.h"
+
+1747088954 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.h
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<pthread.h>
+
+1747089659 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.c
+	"Habitaciones.h"
+
+1747089415 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.h
+	"Dispositivos.h"
+
+1747088402 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\main.c
+	"Habitaciones.h"
+

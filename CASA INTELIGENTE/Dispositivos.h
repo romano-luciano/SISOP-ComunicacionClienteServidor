@@ -7,6 +7,10 @@
 #include <string.h>
 #include <pthread.h>
 
+#define LUCES    0
+#define AIRES    1
+#define SMART_TV 2
+
 typedef struct
 {
     bool estado;
