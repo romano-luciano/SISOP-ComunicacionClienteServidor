@@ -8,7 +8,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
     int i = 0;
     if(!pf)
         printf("Error al abrir el archivo: %s\n", archivo);
-    while(fgets(buffer,TAM_BUFFER,pf))
+    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\r'))
     {
         ///Leemos nombre de habitacion
         printf("\n");
@@ -20,43 +20,52 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
         pipe ++;
         /// Nos posicionamos en cantidad de luces
         punt = pipe;
-        pipe = strchr(pipe,'|');
+        pipe = strchr(pipe,'|');///
         if(pipe)
             *pipe = '\0';
         habitaciones[i].cant_luces = atoi(punt);
         ///Movemos pipe a el campo de las luces
         pipe ++;
-        punt = pipe;
+        punt = pipe;///cadena luces
         pipe = strchr(pipe,'|');
         ///Pisamos el | final de campo de luces
         if(pipe)
             *pipe = '\0';
-        pipe ++;
+        ///
+        pipe ++; ///cantidad de aires
         trozar_luz(punt,&habitaciones[i]);
-        punt = pipe;
+        punt = pipe;///cantidad de aires
         printf("cant_luces : %d|",habitaciones[i].cant_luces);
-        pipe = strchr(pipe,'|');
+        pipe = strchr(pipe,'|');///fin de cant de aires
         if(pipe)
             *pipe = '\0';
-        pipe ++;
         habitaciones[i].cant_aires = atoi(punt);
-        punt = pipe;
-        ///Pisamos el | final de campo de aires
-        pipe = strchr(pipe,'|');
-        if(pipe)
-            *pipe = '\0';
-        pipe ++;
-        if(habitaciones[i].cant_aires > 0)
+        if(habitaciones[i].cant_aires > 0){
+            pipe ++;///ERROR o campo aires o hay_teles
+            punt = pipe;
+            ///Pisamos el | final de campo de aires
+            pipe = strchr(pipe,'|');
+            if(pipe)
+                *pipe = '\0';
             trozar_aire(punt,&habitaciones[i]);
+        }
+        pipe ++;//hay_tele
         punt = pipe;
+        //
         pipe = strchr(pipe,'|');
         if(pipe)
             *pipe = '\0';
+        else{
+            pipe = strchr(punt,'\n');
+            *pipe = '\0';
+        }
         habitaciones[i].hay_tele = atoi(punt);
-        pipe ++;
-        punt = pipe;
-        if(habitaciones[i].hay_tele)
+        if(habitaciones[i].hay_tele){
+            pipe ++;
+            punt = pipe;
             trozar_tele(punt,&habitaciones[i]);
+        }
+
         i++;
     }
     fclose(pf);
@@ -121,7 +130,7 @@ void trozar_tele(char * punt, t_habitacion * h)
     h->tele = (t_televisor *) malloc(sizeof(t_televisor));
     if(!h->tele)
         return;
-    salto = strchr(punt,'\n'); /// Cambiar a '\r' para linux
+    salto = strchr(punt,'\r'); /// Cambiar a '\r' para linux
     *salto = '\0';
     sscanf(punt,"%d;%d;%s",
            &estado,

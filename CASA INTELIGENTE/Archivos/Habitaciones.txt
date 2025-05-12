@@ -1,21 +1,4 @@
-Dormitorio_1
-2
-0;50;Blanco
-0;80;Amarillo
-1
-0;24;frio
-0;40;Netflix
-END
-///Dormitorio 1, dormitorio 2, banio, living, cocina/comedor, patio.
-///Luz: estado;intensidad;color
-///Aire: estado;temperatura;modo
-///Televisor: estado;volumen;fuente
-Habitacion: Dormitorio_1
-Cant_Luces: 2
-Luz: 0;50;Blanco
-Luz: 0;80;Amarillo
-Cant_Aires: 1
-Aire: 0;24;frio
-Televisor: 0;40;Netflix
-
+Dormitorio_1|2|0;50;Blanco:0;80;Amarillo|1|0;24;frio|1|0;40;Netflix
+Dormitorio_2|1|0;20;Rojo|0|0
+Comedor|2|0;50;Blanco:0;80;Amarillo|1|0;30;calor|0
 
