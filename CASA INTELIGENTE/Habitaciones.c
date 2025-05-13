@@ -8,7 +8,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
     int i = 0, nDisp, cant_disp;
     if(!pf)
         printf("Error al abrir el archivo: %s\n", archivo);
-    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\n'))
+    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\r')) ///cambiar por '\r' en linux
     {
         printf("\n");
         ///BUSCAMOS PIPE Y LEEMOS NOMBRE
@@ -25,7 +25,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
                 *pipe = '\0';
             else
             {
-                pipe = strchr(punt,'\n'); ///cmabiar a '\r' en linux
+                pipe = strchr(punt,'\r'); ///cambiar a '\r' en linux
                 *pipe = '\0';
             }
             cant_disp = atoi(punt);
@@ -176,7 +176,7 @@ void trozar_tele(char * punt, t_habitacion * h)
     h->tele = (t_televisor *) malloc(sizeof(t_televisor));
     if(!h->tele)
         return;
-    salto = strchr(punt,'\n'); /// Cambiar a '\r' para linux
+    salto = strchr(punt,'\r'); /// Cambiar a '\r' para linux
     *salto = '\0';
     sscanf(punt,"%d;%d;%s",
            &estado,
