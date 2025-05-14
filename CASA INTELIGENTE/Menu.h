@@ -8,12 +8,13 @@
                             "C - Cocina\n"                      \
                             "D - Dormitorio chico\n"            \
                             "L - Living\n"                      \
+                            "P - Patio\n"                       \
                             "S - Salir\n"                       \
                             "-->"
-#define OPC_MENU_HAB "ABCDLS""
+#define OPC_MENU_HAB "ABCDLS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
 #define MENU_DISPOSITIVOS   "DISPOSITIVOS\n"                                \
-                            "Elija un dispositivo de la habitacion %s\n"    \
+                            "Elija un dispositivo de la habitacion: %s\n"   \
                             "A - Aires\n"                                   \
                             "L - Luces\n"                                   \
                             "T - Smart TV\n"                                \
@@ -82,5 +83,6 @@
 #define OPC_FUENTE_TV "ADNPYS"
 /*-----------------------------------------------------------------------*/
 
+///PRIMER MENU, HABITACIONES
 
 #endif // MENU_H_INCLUDED

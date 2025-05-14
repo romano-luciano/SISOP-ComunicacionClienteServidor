@@ -2,13 +2,13 @@
 
 void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
 {
-    FILE *pf = fopen("Archivos/Habitaciones.txt", "rt");
+    FILE *pf = fopen(archivo, "rt");
     char buffer[TAM_BUFFER];
     char * pipe, * punt = buffer;
     int i = 0, nDisp, cant_disp;
     if(!pf)
         printf("Error al abrir el archivo: %s\n", archivo);
-    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\r')) ///cambiar por '\r' en linux
+    while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\n')) ///cambiar por '\r' en linux
     {
         printf("\n");
         ///BUSCAMOS PIPE Y LEEMOS NOMBRE
@@ -16,7 +16,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
         if(pipe)
             *pipe = '\0';
         strcpy(habitaciones[i].nombre_habitacion,buffer);
-        printf("%s|",habitaciones[i].nombre_habitacion);///PRINT
+        printf("%s",habitaciones[i].nombre_habitacion);///PRINT
         for(nDisp = 0;nDisp < 3;nDisp++){
             ///BUSCAMOS PIPE Y LEEMOS CANTIDAD
             punt = pipe + 1;
@@ -25,7 +25,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
                 *pipe = '\0';
             else
             {
-                pipe = strchr(punt,'\r'); ///cambiar a '\r' en linux
+                pipe = strchr(punt,'\n'); ///cambiar a '\r' en linux
                 *pipe = '\0';
             }
             cant_disp = atoi(punt);
@@ -116,7 +116,6 @@ void cargar_dispositivos(t_habitacion *hab, int cant, char *cad, int disp)
         cant?trozar_tele(cad, hab):NULL;
     }
 }
-
 void trozar_luz(char * punt, t_habitacion * h)
 {
     int estado;
@@ -138,7 +137,7 @@ void trozar_luz(char * punt, t_habitacion * h)
            h->luces[k].color);
         h->luces[k].estado = (estado != 0);
         punt = dos_puntos;
-        printf("%s;%d;%s|", h->luces[k].estado ? "true" : "false", h->luces[k].intensidad, h->luces[k].color);
+        //printf("%s;%d;%s|", h->luces[k].estado ? "true" : "false", h->luces[k].intensidad, h->luces[k].color);
     }
 }
 void trozar_aire(char * punt, t_habitacion * h)
@@ -165,7 +164,7 @@ void trozar_aire(char * punt, t_habitacion * h)
 
         h->aires[i].estado = (estado != 0);
         punt = dos_puntos;
-        printf("%s;%d;%s|", h->aires[i].estado ? "true" : "false", h->aires[i].temperatura, h->aires[i].modo);
+        //printf("%s;%d;%s|", h->aires[i].estado ? "true" : "false", h->aires[i].temperatura, h->aires[i].modo);
 
     }
 }
@@ -176,12 +175,12 @@ void trozar_tele(char * punt, t_habitacion * h)
     h->tele = (t_televisor *) malloc(sizeof(t_televisor));
     if(!h->tele)
         return;
-    salto = strchr(punt,'\r'); /// Cambiar a '\r' para linux
+    salto = strchr(punt,'\n'); /// Cambiar a '\r' para linux
     *salto = '\0';
     sscanf(punt,"%d;%d;%s",
            &estado,
            &h->tele->volumen,
            h->tele->fuente);
     h->tele->estado = (estado != 0);
-    printf("%s;%s;%d|", h->tele->estado ? "true" : "false", h->tele->fuente, h->tele->volumen);
+    //printf("%s;%s;%d|", h->tele->estado ? "true" : "false", h->tele->fuente, h->tele->volumen);
 }
