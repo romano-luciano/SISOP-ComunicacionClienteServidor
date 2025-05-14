@@ -13,12 +13,20 @@
                             "-->"
 #define OPC_MENU_HAB "ABCDLS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
-#define MENU_DISPOSITIVOS   "DISPOSITIVOS\n"                                \
-                            "Elija un dispositivo de la habitacion: %s\n"   \
-                            "A - Aires\n"                                   \
-                            "L - Luces\n"                                   \
-                            "T - Smart TV\n"                                \
-                            "S - Salir\n"                                   \
+#define MENU_DISPOSITIVOS_1  "DISPOSITIVOS\n"                                        \
+                            "Elija un dispositivo de la habitacion: %s\n"           \
+                            "A - Aires (%s)\n"                                       \
+                            "L - Luces (%s)\n"                                       \
+                            "T - Smart TV (%s)\n"                                    \
+                            "S - Salir\n"                                           \
+                            "PD: solo los dispositivos con 'D' estan dispobibles\n" \
+                            "-->"
+#define MENU_DISPOSITIVOS_2  "DISPOSITIVOS\n"                                        \
+                            "Elija un dispositivo de la habitacion: %s\n"           \
+                            "%s\n"                                                  \
+                            "%s\n"                                                  \
+                            "%s\n"                                                  \
+                            "S - Salir\n"                                           \
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/

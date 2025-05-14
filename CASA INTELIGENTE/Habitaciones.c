@@ -10,7 +10,6 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
         printf("Error al abrir el archivo: %s\n", archivo);
     while(fgets(buffer,TAM_BUFFER,pf) && (*buffer!='\n')) ///cambiar por '\r' en linux
     {
-        printf("\n");
         ///BUSCAMOS PIPE Y LEEMOS NOMBRE
         pipe = strchr(buffer,'|');
         if(pipe)
@@ -39,6 +38,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
             ///EN 'CARGAR' PREGUNTAMOS SI EL NUMERO DE 'DISPO' ES MAYOR A 0
             cargar_dispositivos(&habitaciones[i], cant_disp, punt, nDisp);
         }
+        printf("\n");
 /*
         ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE LUCES
         punt = pipe + 1;
