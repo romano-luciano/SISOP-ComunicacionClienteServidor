@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1747014500 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
+1747193283 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
 	"Habitaciones.h"
+	"Menu.h"
 
 1747011357 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.c
 	"Dispositivos.h"
@@ -24,17 +25,17 @@
 1746971346 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.c
 	"Dispositivos.h"
 
-1747103181 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.h
+1747191016 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	<pthread.h>
 
-1747103802 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.c
+1747192716 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.c
 	"Habitaciones.h"
 
-1747103181 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.h
+1747189098 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.h
 	"Dispositivos.h"
 
 1747088402 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.c
@@ -60,5 +61,10 @@
 1747177977 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.h
 
 1747175192 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.c
+	"Menu.h"
+
+1747192437 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.h
+
+1747189098 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
 	"Menu.h"
 
