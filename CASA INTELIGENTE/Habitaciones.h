@@ -1,7 +1,7 @@
 #ifndef HABITACIONES_H_INCLUDED
 #define HABITACIONES_H_INCLUDED
 
-#define CANT_HABITACIONES 5
+#define CANT_HABITACIONES 6
 #define TAM_BUFFER 100
 #include "Dispositivos.h"
 
