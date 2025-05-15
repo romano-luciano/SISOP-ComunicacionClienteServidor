@@ -22,10 +22,10 @@
                             "L - Luces (%s)\n"                                       \
                             "T - Smart TV (%s)\n"                                    \
                             "S - Salir\n"                                           \
-                            "PD: solo los dispositivos con 'D' estan dispobibles\n" \
+                            "PD: solo los dispositivos con 'D' estan disponibles\n" \
                             "-->"
 #define MENU_DISPOSITIVOS_2  "DISPOSITIVOS\n"                                        \
-                            "Elija un dispositivo de la habitacion: %s\n"           \
+                            "Elija tipo de dispositivo de: %s\n"           \
                             "%s\n"                                                  \
                             "%s\n"                                                  \
                             "%s\n"                                                  \
@@ -33,8 +33,7 @@
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/
-#define MENU_AIRES  "AIRES ACONDICIONADOS\n"                            \
-                    "Elija un atributo del aire que desee modificar\n"  \
+#define MENU_AIRES  "Seleccione un atributo del aire que desee modificar\n"  \
                     "E - Encendido\n"                                   \
                     "M - Modo\n"                                        \
                     "T - Temperatura\n"                                 \
@@ -86,7 +85,7 @@
                         "Elija una plataforma para reproducir\n"        \
                         "A - AmazonePrime\n"                            \
                         "D - Disney\n"                                  \
-                        "N - Netflix\ņ"                                 \
+                        "N - Netflix\n"                                 \
                         "P - PrimeVideo\n"                              \
                         "Y - YouTube\n"                                 \
                         "S - Salir\n"                                   \

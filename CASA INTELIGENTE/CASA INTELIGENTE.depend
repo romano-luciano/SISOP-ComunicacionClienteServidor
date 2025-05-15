@@ -6,12 +6,13 @@
 1747011357 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.c
 	"Dispositivos.h"
 
-1747024855 /home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.h
+1747279763 /home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Dispositivos.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	<pthread.h>
+	<ctype.h>
 
 1747024711 source:/home/pilar/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.c
 	"Habitaciones.h"
