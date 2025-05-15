@@ -1,6 +1,6 @@
 Dormitorio_1|2|0;50;Blanco:0;80;Amarillo|1|0;24;frio|1|0;40;Netflix
 Banio|2|1;20;Rojo:1;25;Rojo|0|0
-Cocina|3|1;80;Blanca:1;40;Blanca:0;50;Verde|1|1;24;frio|1|0;30;YouTube
-Living|2|0;50;Azul:0;80;Azul|2|0;24;calor:0;24;calor|0
-Dormitorio|2|1;20;Rojo:1;25;Rojo|1|0;20;frio|1|0;30;Netflix
+Cocina|3|1;80;Blanca:1;40;Blanca:0;50;Verde|1|1;24;frio|0
+Dormitorio_2|2|1;20;Rojo:1;25;Rojo|1|0;20;frio|1|0;30;Netflix
+Living|2|0;50;Azul:0;80;Azul|2|0;24;calor:0;24;calor|1|0;30;YouTube
 Patio|4|0;60;Blanco:0;55;Blanco:1;70;Verde:0;30;Violeta|0|0

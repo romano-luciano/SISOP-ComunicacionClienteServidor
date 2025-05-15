@@ -1,6 +1,9 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#include "Habitaciones.h"
+
+/*-------------------------HABITACIONES-------------------------*/
 #define MENU_HABITACIONES   "CASA INTELIGENTE\n"                \
                             "Elija una habitacion por favor:\n" \
                             "A - Dormitorio grande\n"           \
@@ -92,5 +95,9 @@
 /*-----------------------------------------------------------------------*/
 
 ///PRIMER MENU, HABITACIONES
-
+void seleccion_habitaciones(t_habitacion *hab);
+int val_opc(char opc);
+///SEGUNDO MENU, DISPOSITIVOS
+void seleccion_dispositivos(t_habitacion *hab);
+void vector_opc_disp(const t_habitacion *hab, char *opc_res);
 #endif // MENU_H_INCLUDED
