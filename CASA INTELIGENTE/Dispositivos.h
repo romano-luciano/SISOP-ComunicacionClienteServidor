@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <pthread.h>
+#include <ctype.h>
 
 #define LUCES    0
 #define AIRES    1

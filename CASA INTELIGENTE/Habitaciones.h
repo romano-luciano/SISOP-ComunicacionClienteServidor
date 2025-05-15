@@ -8,10 +8,10 @@
 typedef struct
 {
     char nombre_habitacion[20];
-    t_luz * luces;
     unsigned cant_luces;
-    t_aire * aires; ///Va a tener asignacion dinamica de memoria, liberar memoria al finalizar.
+    t_luz * luces;
     unsigned cant_aires;
+    t_aire * aires; ///Va a tener asignacion dinamica de memoria, liberar memoria al finalizar.
     int hay_tele;
     t_televisor * tele;
 

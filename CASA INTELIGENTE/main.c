@@ -24,9 +24,9 @@ int main(int argc, char *argv[])
                                 habitaciones[i].hay_tele?"D":"*");
     puts("\n");
     printf(MENU_DISPOSITIVOS_2, habitaciones[i].nombre_habitacion,
-                                habitaciones[i].cant_aires?"A - Aires":"-",
-                                habitaciones[i].cant_luces?"L - Luces":"-",
-                                habitaciones[i].hay_tele?"T - Smart TV":"-");
+                                habitaciones[i].cant_aires?"A - Aires":" ",
+                                habitaciones[i].cant_luces?"L - Luces":" ",
+                                habitaciones[i].hay_tele?"T - Smart TV":" ");
 
     return 0;
 }
