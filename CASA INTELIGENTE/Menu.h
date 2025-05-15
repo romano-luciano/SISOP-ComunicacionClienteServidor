@@ -99,4 +99,6 @@ int val_opc(char opc);
 ///SEGUNDO MENU, DISPOSITIVOS
 void seleccion_dispositivos(t_habitacion *hab);
 void vector_opc_disp(const t_habitacion *hab, char *opc_res);
+
+void Menu_Aires(t_aire * aires, int cant_aires);
 #endif // MENU_H_INCLUDED

@@ -45,7 +45,7 @@ void seleccion_dispositivos(t_habitacion * hab)
 {
     char opc_cli;
     char opc_disp[5];
-    vector_opc_disp(hab, &opc_disp);
+    vector_opc_disp(hab, opc_disp);
     do{
         while(getchar() != '\n');  // limpia buffer
         printf(MENU_DISPOSITIVOS_2, hab->nombre_habitacion,
@@ -77,7 +77,7 @@ void vector_opc_disp(const t_habitacion * hab, char * opc_res)
 {
    char * p = opc_res;
    if(hab->cant_aires > 0)
-   {   
+   {
         *p = 'A';
         p ++;
    }
@@ -116,8 +116,8 @@ void Menu_Aires(t_aire * aires, int cant_aires)
         if(opc <= 0 || opc > cant_aires)
             printf("\nAire no valido.");
     }while(opc <= 0 || opc > cant_aires);
-    
-    do 
+
+    do
     {
         printf("\n%s",MENU_AIRES); ///Menu de atributos a modificar
         do ///Validacion de opcion.
@@ -126,7 +126,7 @@ void Menu_Aires(t_aire * aires, int cant_aires)
             scanf("%c",&atributo);
             if(!strchr(OPC_MENU_AIRES,atributo))
                 printf("Opcion no valida. Ingrese (%s):",OPC_MENU_AIRES);
-        } while (!strchr(OPC_MENU_AIRES,atributo)); 
+        } while (!strchr(OPC_MENU_AIRES,atributo));
 
         switch(atributo)
         {

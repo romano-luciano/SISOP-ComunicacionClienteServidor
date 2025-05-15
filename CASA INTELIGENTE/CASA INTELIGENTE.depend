@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1747277788 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
+1747285766 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
 	"Habitaciones.h"
 	"Menu.h"
 
@@ -65,9 +65,9 @@
 1747175192 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.c
 	"Menu.h"
 
-1747279209 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.h
+1747285840 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.h
 	"Habitaciones.h"
 
-1747279509 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
+1747285858 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
 	"Menu.h"
 
