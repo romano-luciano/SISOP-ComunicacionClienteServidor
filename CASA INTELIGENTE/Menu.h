@@ -7,14 +7,14 @@
 #define MENU_HABITACIONES   "CASA INTELIGENTE\n"                \
                             "Elija una habitacion por favor:\n" \
                             "A - Dormitorio grande\n"           \
-                            "B - Baño\n"                        \
+                            "B - Banio\n"                        \
                             "C - Cocina\n"                      \
                             "D - Dormitorio chico\n"            \
                             "L - Living\n"                      \
                             "P - Patio\n"                       \
                             "S - Salir\n"                       \
                             "-->"
-#define OPC_MENU_HAB "ABCDLS"
+#define OPC_MENU_HAB "ABCDLPS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
 #define MENU_DISPOSITIVOS_1  "DISPOSITIVOS\n"                                        \
                             "Elija un dispositivo de la habitacion: %s\n"           \
@@ -25,19 +25,19 @@
                             "PD: solo los dispositivos con 'D' estan disponibles\n" \
                             "-->"
 #define MENU_DISPOSITIVOS_2  "DISPOSITIVOS\n"                                        \
-                            "Elija tipo de dispositivo de: %s\n"           \
-                            "%s\n"                                                  \
-                            "%s\n"                                                  \
-                            "%s\n"                                                  \
+                            "Elija tipo de dispositivo de: %s\n"                    \
+                            "%s"                                                  \
+                            "%s"                                                  \
+                            "%s"                                                  \
                             "S - Salir\n"                                           \
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/
-#define MENU_AIRES  "Seleccione un atributo del aire que desee modificar\n"  \
-                    "E - Encendido\n"                                   \
-                    "M - Modo\n"                                        \
-                    "T - Temperatura\n"                                 \
-                    "S - Salir\n"                                       \
+#define MENU_AIRES  "Seleccione un atributo del aire %d que desee modificar\n"  \
+                    "E - Encendido\n"                                           \
+                    "M - Modo\n"                                                \
+                    "T - Temperatura\n"                                         \
+                    "S - Salir\n"                                               \
                     "-->"
 #define OPC_MENU_AIRES "EMTS"
 
@@ -101,4 +101,6 @@ void seleccion_dispositivos(t_habitacion *hab);
 void vector_opc_disp(const t_habitacion *hab, char *opc_res);
 
 void Menu_Aires(t_aire * aires, int cant_aires);
+void Menu_Luces(t_luz *luces, int cant_luces);
+void Menu_SmartTV(t_televisor *smart, int cant_tv);
 #endif // MENU_H_INCLUDED
