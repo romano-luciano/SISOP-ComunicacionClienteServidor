@@ -1,9 +1,16 @@
 #ifndef HABITACIONES_H_INCLUDED
 #define HABITACIONES_H_INCLUDED
 
-#define CANT_HABITACIONES 6
-#define TAM_BUFFER 100
 #include "Dispositivos.h"
+
+#define CANT_HABITACIONES 6
+#define DORMITORIO_1    0
+#define BANIO            1
+#define COCINA          2
+#define DORMITORIO_2    3
+#define LIVING          4
+#define PATIO           5
+#define TAM_BUFFER 100
 
 typedef struct
 {

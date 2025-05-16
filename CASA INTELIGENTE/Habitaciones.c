@@ -39,63 +39,6 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
             cargar_dispositivos(&habitaciones[i], cant_disp, punt, nDisp);
         }
         printf("\n");
-/*
-        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE LUCES
-        punt = pipe + 1;
-        pipe = strchr(punt,'|');
-        if(pipe)
-            *pipe = '\0';
-        else{
-            pipe = strchr(punt,'\n');
-            *pipe = '\0';
-        }
-        habitaciones[i].cant_luces = atoi(punt);
-        printf("cant: %d|",habitaciones[i].cant_luces);///PRINT
-        ///BUSCAMOS PIPE Y LEEMOS LUCES, SI HAY LUCES
-        if(habitaciones[i].cant_luces > 0){
-            punt = pipe + 1;
-            pipe = strchr(punt,'|');
-            if(pipe)
-                *pipe = '\0';
-            trozar_luz(punt,&habitaciones[i]);
-        }
-        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE AIRES
-        punt = pipe + 1;
-        pipe = strchr(punt,'|');
-        if(pipe)
-            *pipe = '\0';
-        else{
-            pipe = strchr(punt,'\n');
-            *pipe = '\0';
-        }
-        habitaciones[i].cant_aires = atoi(punt);
-        ///BUSCAMOS PIPE Y LEEMOS AIRES, SI HAY AIRES
-        if(habitaciones[i].cant_aires > 0){
-            punt = pipe + 1;
-            pipe = strchr(punt,'|');
-            if(pipe)
-                *pipe = '\0';
-            trozar_aire(punt,&habitaciones[i]);
-        }
-        ///BUSCAMOS PIPE Y LEEMOS CANTIDAD DE SMART TV
-        punt = pipe + 1;
-        pipe = strchr(punt,'|');
-        if(pipe)
-            *pipe = '\0';
-        else{
-            pipe = strchr(punt,'\n');
-            *pipe = '\0';
-        }
-        habitaciones[i].hay_tele = atoi(punt);
-        ///BUSCAMOS PIPE Y LEEMOS SMART TV, SI HAY TV
-        if(habitaciones[i].hay_tele){
-            punt = pipe + 1;
-            pipe = strchr(punt,'|');
-            if(pipe)
-                *pipe = '\0';
-            trozar_tele(punt,&habitaciones[i]);
-        }
-*/
         i++;
     }
     fclose(pf);
@@ -175,7 +118,7 @@ void trozar_tele(char * punt, t_habitacion * h)
     h->tele = (t_televisor *) malloc(sizeof(t_televisor));
     if(!h->tele)
         return;
-    salto = strchr(punt,'\n'); /// Cambiar a '\r' para linux
+    salto = strchr(punt,'\n');
     *salto = '\0';
     sscanf(punt,"%d;%d;%s",
            &estado,

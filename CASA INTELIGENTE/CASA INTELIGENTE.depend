@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1747277788 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
+1747285766 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/main.c
 	"Habitaciones.h"
 	"Menu.h"
 
@@ -40,34 +40,37 @@
 1747277616 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Habitaciones.h
 	"Dispositivos.h"
 
-1747088402 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.c
+1747358352 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.c
 	"Dispositivos.h"
+	"Menu.h"
 
-1747088954 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.h
+1747358239 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\dispositivos.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	<pthread.h>
+	<ctype.h>
 
-1747178678 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.c
+1747342816 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.c
 	"Habitaciones.h"
 
-1747179933 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.h
+1747358313 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\habitaciones.h
 	"Dispositivos.h"
 
-1747182271 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\main.c
+1747352291 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\main.c
 	"Habitaciones.h"
 	"Menu.h"
 
-1747177977 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.h
-
-1747175192 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.c
-	"Menu.h"
-
-1747279209 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.h
+1747356462 c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.h
 	"Habitaciones.h"
 
-1747279509 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
+1747358389 source:c:\users\crios\desktop\sisop-comunicacionclienteservidor\casa inteligente\menu.c
+	"Menu.h"
+
+1747285840 /home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.h
+	"Habitaciones.h"
+
+1747285858 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
 	"Menu.h"
 

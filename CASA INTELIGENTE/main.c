@@ -17,16 +17,19 @@ int main(int argc, char * argv[])
     ///CONFIGURAR LOS SOCKETS
 
     ///PRUEBA DE MENU DISPOSITIVOS
-    i = 2;
+    seleccion_habitaciones(habitaciones);
+    i = 5;
+    /*
     printf(MENU_DISPOSITIVOS_1, habitaciones[i].nombre_habitacion,
                                 habitaciones[i].cant_aires?"D":"*",
                                 habitaciones[i].cant_luces?"D":"*",
                                 habitaciones[i].hay_tele?"D":"*");
+
     puts("\n");
     printf(MENU_DISPOSITIVOS_2, habitaciones[i].nombre_habitacion,
-                                habitaciones[i].cant_aires?"A - Aires":" ",
-                                habitaciones[i].cant_luces?"L - Luces":" ",
-                                habitaciones[i].hay_tele?"T - Smart TV":" ");
-
+                                habitaciones[i].cant_aires?"A - Aires\n":"\0",
+                                habitaciones[i].cant_luces?"L - Luces\n":"\0",
+                                habitaciones[i].hay_tele?"T - Smart TV\n":"\0");
+    */
     return 0;
 }
