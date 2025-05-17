@@ -10,12 +10,13 @@ void seleccion_habitaciones(t_habitacion * hab){
 
         opc = toupper(opc);
         if(strchr(OPC_MENU_HAB, opc) == NULL ){
-            system("CLS");
+            system("clear");
             printf("%s", MENU_HABITACIONES);
             printf("HABITACION INCORRECTA. INGRESE NUEVAMENTE: \n");
-            system("PAUSE");
+            printf("Presiona Enter para continuar...");
+            getchar();
         }
-        system("CLS");
+        system("clear");
         switch(opc)
         {
             case 'A':///DORMITORIO 1
@@ -37,20 +38,14 @@ void seleccion_habitaciones(t_habitacion * hab){
                 seleccion_dispositivos(&hab[PATIO]);
                 break;
         }
-        system("CLS");
+        system("clear");
         ///GUARDAR Y ESCRIBIR EL ARCHIVO
     }while(opc!='S');
 }
-//int val_opc(char opc){
-//    char *aux = opc++;
-//    return aux?0:1; ///VALIDO SI ES UNA LETRA SOLA
-//}
-///SEGUNDO MENU, DISPOSITIVOS
-
 void seleccion_dispositivos(t_habitacion * hab)
 {
     char opc_cli;
-    char opc_disp[5];
+    char opc_disp[CANT_HABITACIONES-1];
     vector_opc_disp(hab, opc_disp);
     do{
         while(getchar() != '\n');  // limpia buffer
@@ -67,7 +62,7 @@ void seleccion_dispositivos(t_habitacion * hab)
             system("PAUSE");
 
         }
-        system("CLS");
+        system("clear");
         switch(opc_cli)
         {
             case 'A':///AIRES
@@ -78,7 +73,7 @@ void seleccion_dispositivos(t_habitacion * hab)
             case 'T':///SMART TV
                 break;
         }
-        system("CLS");
+        system("clear");;
     }while(opc_cli!='S');
 }
 void vector_opc_disp(const t_habitacion * hab, char * opc_res)
@@ -102,14 +97,12 @@ void vector_opc_disp(const t_habitacion * hab, char * opc_res)
    *p = 'S';
    p++;
    *p = '\0';
-   puts(opc_res);
+   //puts(opc_res);
 }
 void Menu_Aires(t_aire * aires, int cant_aires)
 {
-    int i, res;
-    int opc;
-    char atributo;
-
+    int i, res, opc;
+    char atributo, aux;
     do{
         printf("AIRES DISPONIBLES\n-----------------\n");
         for(i = 0; i < cant_aires; i++)
@@ -122,28 +115,39 @@ void Menu_Aires(t_aire * aires, int cant_aires)
         }
         while(getchar() != '\n');  // LIMPIA EL BUFFER
         //printf("SELECCIONE UN AIRE POR SU NUMERO: 1 - %d:", cant_aires);
-        puts("SELECCIONE UN AIRE POR SU NUMERO:");
-        scanf("%d",&opc);   ///ELIJE NUMERO DE AIRE
-        if(opc <= 0 || opc > cant_aires){
-            atributo = 'Z';
-            system("CLS");
-            printf("\nAIRE NO VALIDO\n.");
-            system("PAUSE");
+        puts("SELECCIONE UN AIRE POR SU NUMERO (S para salir):");
+        scanf("%c", &aux); /// ELIJE NUMERO DE AIRE
+        if(aux == 'S' || aux == 's')
+        {
+            atributo = toupper(aux);
         }
         else
         {
-            while(getchar() != '\n');
-            printf(MENU_AIRES, cant_aires); ///MENU DE ATRIBUTOS A MODIFICAR DE AIRE
-            scanf("%c",&atributo);
-            atributo = toupper(atributo);
-            if(strchr(OPC_MENU_AIRES,atributo) == NULL){
-                system("CLS");
-                //printf("%s", MENU_AIRES);
-                printf("ATRIBUTO DE AIRE INCORRECTO. INGRESE NUEVAMENTE:\n");
-                system("PAUSE");
+            opc = atoi(&aux);
+            if (opc <= 0 || opc > cant_aires) ///RANGO NUMERICO INVALIDO cant_aires > 1 &&
+            {
+                atributo = 'Z';
+                system("clear");
+                printf("NUMERO DE AIRE NO VALIDO\n.");
+                system("pause");
+            }
+            else
+            {
+                while(getchar() != '\n');
+                printf(MENU_AIRES, cant_aires); ///MENU DE ATRIBUTOS A MODIFICAR DE AIRE
+                scanf("%c",&atributo);
+                atributo = toupper(atributo);
+                if(strchr(OPC_MENU_AIRES,atributo) == NULL)
+                {
+                    system("clear");
+                    //printf("%s", MENU_AIRES);
+                    printf("ATRIBUTO DE AIRE INCORRECTO. INGRESE NUEVAMENTE:\n");
+                    system("pause");
+                }
             }
         }
-        system("CLS");
+
+        system("clear");
         switch(atributo)
         {
             case 'E':///MODIFICAR ESTADO
@@ -154,9 +158,20 @@ void Menu_Aires(t_aire * aires, int cant_aires)
                     puts("ERROR AL MODIFICAR ENCENDIDO\n");
                 break;
             case 'M':///MENU Y MODIFICACION DE MODO
+                res = aire_modo(&aires[opc - 1]);
+                if(res)
+                    puts("SE MODIFICO EL MODO\n");
+                else
+                    puts("ERROR AL MODIFICAR MODO\n");
                 break;
-            case 'T':
-                break;///MODIFICAR TEMPERATURA
+            case 'T':///MODIFICAR TEMPERATURA
+                res = aire_temperatura(&aires[opc - 1]);
+                if(res)
+                    puts("SE MODIFICO LA TEMPERATURA\n");
+                else
+                    puts("ERROR AL MODIFICAR MODO\n");
+                break;
         }
+        system("clear");
     }while(atributo != 'S');
 }

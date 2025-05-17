@@ -12,7 +12,7 @@
 #define AIRES    1
 #define SMART_TV 2
 
-#define TAM_MODO 10
+#define TAM_MODO 15
 #define TAM_COLOR 10
 #define TAM_FUENTE 20
 
@@ -43,5 +43,7 @@ typedef struct
 /*----------------LUZ-------------------*/
 /*----------------AIRE------------------*/
 int aire_encendido(t_aire *aire);
+int aire_modo(t_aire *aire);
+int aire_temperatura(t_aire *aire);
 /*----------------SMART TV--------------*/
 #endif // DISPOSITIVOS_H_INCLUDED

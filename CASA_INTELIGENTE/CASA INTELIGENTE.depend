@@ -74,3 +74,31 @@
 1747285858 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
 	"Menu.h"
 
+1747518805 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.c
+	"Dispositivos.h"
+	"Menu.h"
+
+1747516396 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.h
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<pthread.h>
+	<ctype.h>
+
+1747493997 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
+	"Habitaciones.h"
+
+1747493997 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.h
+	"Dispositivos.h"
+
+1747493997 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.c
+	"Habitaciones.h"
+
+1747493997 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/main.c
+	"Habitaciones.h"
+	"Menu.h"
+
+1747518803 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.c
+	"Menu.h"
+
