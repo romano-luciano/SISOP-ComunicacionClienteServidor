@@ -13,9 +13,16 @@ int aire_modo(t_aire *aire)
 {
     int res;
     char modo;
+    if(!aire->estado){
+        printf("El aire está apagado. No se puede modificar el modo.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return 1;
+    }
     do
     {
-        system("CLEAR"); ///observar
+        system("clear"); ///observar
         puts("AIRE\n------\n");
         printf("ESTADO: %s\n", aire->estado ? "ENCENDIDO" : "APAGADO");
         printf("MODO: %s\n", aire->modo);
@@ -35,15 +42,15 @@ int aire_modo(t_aire *aire)
         switch(modo)
         {
         case 'C':
-            res = memcpy(aire->modo, "CALOR", 6)? 1 : 0;
+            res = strcpy(aire->modo, "CALOR")? 1 : 0;
             //modo = 'S';
             break;
         case 'F':
-            res = memcpy(aire->modo, "FRIO", 5)? 1 : 0;
+            res = strcpy(aire->modo, "FRIO")? 1 : 0;
             //modo = 'S';
             break;
         case 'V':
-            res = memcpy(aire->modo, "VENTILACION", 12)? 1 : 0;
+            res = strcpy(aire->modo, "VENTILACION")? 1 : 0;
             //modo = 'S';
             break;
         }
@@ -54,8 +61,16 @@ int aire_modo(t_aire *aire)
 int aire_temperatura(t_aire *aire)
 {
     int res, opc_temp;
+    if(!aire->estado){
+        printf("El aire está apagado. No se puede modificar la temperatura.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return 1;
+    }
     do
     {
+        while(getchar() != '\n');  // LIMPIA EL BUFFER
         puts("VALORES VALIDOS SON 15<TEMPERATURA<33\nINGRESE TEMPERATURA NUEVA:");
         scanf("%d", &opc_temp);
         if(opc_temp < 16 || opc_temp > 32)
@@ -73,4 +88,193 @@ int aire_temperatura(t_aire *aire)
     } while (opc_temp < 16 || opc_temp > 32);
 
     return res;
+}
+/*------------------------LUZ---------------------------------------------*/
+int luz_encendido(t_luz *luz)
+{
+    if(luz->estado)
+        return luz->estado = false;
+    else
+        return luz->estado = true;
+}
+int luz_color(t_luz *luz)
+{
+    int res;
+    char color;
+    if(!luz->estado){
+        printf("La luz está apagada. No se puede modificar el color.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return 1;
+    }
+    do
+    {
+        system("clear"); ///observar
+        printf("LUZ\n------\n");
+        printf("ESTADO: %s\n", luz->estado ? "ENCENDIDO" : "APAGADO");
+        printf("COLOR: %s\n", luz->color);
+        printf("INTENCIDAD: %d\n", luz->intensidad);
+        printf("-----------------\n");
+        validar_atributos(&color, OPC_COLORES_LUCES, MENU_COLORES_LUCES);
+        system("clear");
+        switch (color)
+        {
+        case 'A':
+            res = strcpy(luz->color, "AMARILLO")? 1 : 0;
+            break;
+        case 'B':
+            res = strcpy(luz->color, "AZUL")? 1 : 0;
+            break;
+        case 'G':
+            res = strcpy(luz->color, "VERDE")? 1 : 0;
+            break;
+        case 'N':
+            res = strcpy(luz->color, "NARANJA")? 1 : 0;
+            break;
+        case 'R':
+            res = strcpy(luz->color, "ROJO")? 1 : 0;
+            break;
+        case 'V':
+            res = strcpy(luz->color, "VIOLETA")? 1 : 0;
+            break;
+        case 'W':
+            res = strcpy(luz->color, "BLANCO")? 1 : 0;
+            break;
+        }
+    } while (color != 'S');
+    return res;
+}
+int luz_intensidad(t_luz *luz)
+{
+    int res, opc_temp;
+    if(!luz->estado){
+        printf("La luz está apagada. No se puede modificar la intensidad.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return 1;
+    }
+    do
+    {
+        puts("VALORES VALIDOS SON 1 < INTENSIDAD < 10\nINGRESE TEMPERATURA NUEVA:");
+        scanf("%d", &opc_temp);
+        if(opc_temp < 1 || opc_temp > 10)
+        {
+            system("clear");
+            puts("VALOR INCORRECTO. INGRESE NUEVAMENTE:\n");
+            system("PAUSE");
+        }
+        else
+        {
+            luz->intensidad = opc_temp;
+            res = 1;
+        }
+        system("clear");
+    } while (opc_temp < 1 || opc_temp > 10);
+
+    return res;
+}
+/*---------------------------SMAR-TV-----------------------------------------*/
+void smart_encendido(t_televisor *tv)
+{
+    tv->estado = !tv->estado;
+}
+int smart_fuente(t_televisor * tv)
+{
+    char opc;
+    int res=1;
+    if(!tv->estado){
+        printf("El televisor está apagado. No se puede modificar la fuente.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return res;
+    }
+    printf("%s",MENU_FUENTE_TV);
+    do
+    {
+        while(getchar() != '\n');
+        scanf("%c",&opc);
+        if(isalpha(opc))
+            opc = toupper(opc);
+        if(!strchr(OPC_FUENTE_TV,opc))
+        {
+            printf("Opcion no valida. Ingrese nuevamente (%s):",OPC_FUENTE_TV);
+        }
+    } while (!strchr(OPC_FUENTE_TV,opc));
+    system("clear");\
+    switch(opc)
+    {
+        case 'A':
+            strcpy(tv->fuente,"AMAZON PRIME");
+            break;
+        case 'D':
+            strcpy(tv->fuente,"DISNEY");
+            break;
+        case 'N':
+            strcpy(tv->fuente,"NETFLIX");
+            break;
+        case 'Y':
+            strcpy(tv->fuente,"YOUTUBE");
+            break;
+    }
+    return res;
+}
+int smart_volumen(t_televisor * tv)
+{
+    int volumen;
+    printf("Ingrese volumen (0 - 100):");
+    do
+    {
+        while(getchar() != '\n');
+        scanf("%d",&volumen);
+        if(volumen < 0 || volumen > 100)
+            printf("Volumen fuera de rango. Ingrese un valor del 0 al 100:");
+    } while (volumen < 0 || volumen > 100);
+    tv->volumen = volumen;
+    return tv->volumen;
+}
+void modificar_volumen_smart(t_televisor * t)
+{
+    char opcion;
+
+    if(!t->estado){
+        printf("El televisor está apagado. No se puede modificar el volumen.\n");
+        printf("Presioná Enter para continuar...");
+        while (getchar() != '\n');
+        getchar();
+        return;
+    }
+    do 
+    {
+        printf("Ingrese A para aumentar, B para bajar volumen, S para salir: ");
+        do{
+            do{
+                opcion = getchar();
+            }while(opcion == '\n');
+            if (isalpha(opcion))
+                opcion = toupper(opcion);
+            if(opcion != 'A' && opcion != 'B' && opcion != 'S') {
+                printf("Opción inválida. Ingrese A (aumentar), B (bajar) o S (salir): ");
+            }
+        }while(opcion != 'A' && opcion != 'B' && opcion != 'S');
+
+        if(opcion == 'A'){
+            if (t->volumen <= 95)
+                t->volumen += 5;
+            else
+                t->volumen = 100;
+        }else if(opcion == 'B'){
+            if (t->volumen >= 5)
+                t->volumen -= 5;
+            else
+                t->volumen = 0;
+        }
+
+        if (opcion != 'S') {
+            printf("Volumen actual: %d\n", t->volumen);
+        }
+
+    } while (opcion != 'S');
 }

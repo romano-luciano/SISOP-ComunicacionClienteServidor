@@ -15,7 +15,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
         if(pipe)
             *pipe = '\0';
         strcpy(habitaciones[i].nombre_habitacion,buffer);
-        printf("%s",habitaciones[i].nombre_habitacion);///PRINT
+        ///printf("%s",habitaciones[i].nombre_habitacion);///PRINT
         for(nDisp = 0;nDisp < 3;nDisp++){
             ///BUSCAMOS PIPE Y LEEMOS CANTIDAD
             punt = pipe + 1;
@@ -24,7 +24,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
                 *pipe = '\0';
             else
             {
-                pipe = strchr(punt,'\n'); ///cambiar a '\r' en linux
+                pipe = strchr(punt,'\n');
                 *pipe = '\0';
             }
             cant_disp = atoi(punt);
@@ -38,7 +38,7 @@ void inicializar_habitaciones(t_habitacion * habitaciones, const char *archivo)
             ///EN 'CARGAR' PREGUNTAMOS SI EL NUMERO DE 'DISPO' ES MAYOR A 0
             cargar_dispositivos(&habitaciones[i], cant_disp, punt, nDisp);
         }
-        printf("\n");
+        //printf("\n");
         i++;
     }
     fclose(pf);

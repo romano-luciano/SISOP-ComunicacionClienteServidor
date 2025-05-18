@@ -33,7 +33,7 @@
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/
-#define MENU_AIRES  "Seleccione un atributo del aire %d que desee modificar\n"  \
+#define MENU_AIRES  "Seleccione un atributo del aire que desee modificar\n"  \
                     "E - Encendido\n"                                           \
                     "M - Modo\n"                                                \
                     "T - Temperatura\n"                                         \
@@ -50,11 +50,11 @@
                         "-->"
 #define OPC_MODO_AIRE "CFVS"
 /*-------------------------LUCES-----------------------------------------*/
-#define MENU_LUCES  "LUCES MULTICOLRES\n"                               \
+#define MENU_LUCES  "LUCES MULTICOLORES\n"                               \
                     "Elija un atributo de las luces a cambiar\n"        \
                     "C - Color\n"                                       \
                     "E - Encendido\n"                                   \
-                    "I - Intencidad\n"                                  \
+                    "I - Intensidad\n"                                  \
                     "S - Salir\n"                                       \
                     "-->"
 #define OPC_MENU_LUCES "CEIS"
@@ -70,7 +70,7 @@
                             "W - Blanco\n"                              \
                             "S - Salir\n"                               \
                             "-->"
-#define OPC_COLORES_LUCES   "ABCGNRVWS"
+#define OPC_COLORES_LUCES   "ABGNRVWS"
 /*------------------------SMART-TV-------------------------------------*/
 #define MENU_SMART_TV   "TELEVISION SMART\n"                            \
                         "Elija un atributo para modificar del smart\n"  \
@@ -83,14 +83,13 @@
 
 #define MENU_FUENTE_TV  "FUENTE DE LA TELEVISION\n"                     \
                         "Elija una plataforma para reproducir\n"        \
-                        "A - AmazonePrime\n"                            \
                         "D - Disney\n"                                  \
                         "N - Netflix\n"                                 \
-                        "P - PrimeVideo\n"                              \
+                        "P - Prime Video\n"                              \
                         "Y - YouTube\n"                                 \
                         "S - Salir\n"                                   \
                         "-->"
-#define OPC_FUENTE_TV "ADNPYS"
+#define OPC_FUENTE_TV "DNPYS"
 /*-----------------------------------------------------------------------*/
 
 ///PRIMER MENU, HABITACIONES
@@ -102,5 +101,8 @@ void vector_opc_disp(const t_habitacion *hab, char *opc_res);
 
 void Menu_Aires(t_aire * aires, int cant_aires);
 void Menu_Luces(t_luz *luces, int cant_luces);
-void Menu_SmartTV(t_televisor *smart, int cant_tv);
+void Menu_SmartTV(t_televisor *smart);
+
+void validar_atributos(char *opc_cli, const char *opc_val, const char *menu_atributo);
+int Validar_Nro_Dispositivo(char * aux, int cant_dispositivos, int tipo_disp);
 #endif // MENU_H_INCLUDED

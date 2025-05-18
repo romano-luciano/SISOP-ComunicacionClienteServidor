@@ -41,9 +41,16 @@ typedef struct
 }t_televisor;
 
 /*----------------LUZ-------------------*/
+int luz_encendido(t_luz *luz);
+int luz_color(t_luz *luz);
+int luz_intensidad(t_luz *luz);
 /*----------------AIRE------------------*/
 int aire_encendido(t_aire *aire);
 int aire_modo(t_aire *aire);
 int aire_temperatura(t_aire *aire);
 /*----------------SMART TV--------------*/
+void smart_encendido(t_televisor *tv);
+int smart_fuente(t_televisor * tv);
+int smart_volumen(t_televisor * tv);
+void modificar_volumen_smart(t_televisor * t);
 #endif // DISPOSITIVOS_H_INCLUDED
