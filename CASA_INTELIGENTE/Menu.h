@@ -41,7 +41,7 @@
                     "-->"
 #define OPC_MENU_AIRES "EMTS"
 
-#define MENU_AIRES_MODO "MODO DE AIRES\n"                               \
+#define MENU_AIRES_MODO "-------------\n"                               \
                         "Elija un modo para el aire acondicionado\n"    \
                         "C - Calor\n"                                   \
                         "F - Frio\n"                                    \
@@ -72,7 +72,7 @@
                             "-->"
 #define OPC_COLORES_LUCES   "ABGNRVWS"
 /*------------------------SMART-TV-------------------------------------*/
-#define MENU_SMART_TV   "TELEVISION SMART\n"                            \
+#define MENU_SMART_TV   "----------------\n"                            \
                         "Elija un atributo para modificar del smart\n"  \
                         "E - Encendido\n"                               \
                         "F - Fuente\n"                                  \

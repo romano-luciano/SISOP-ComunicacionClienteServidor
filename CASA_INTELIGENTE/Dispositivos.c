@@ -1,6 +1,7 @@
 #include "Dispositivos.h"
 #include "Menu.h"
 
+/*------------------------AIRES-------------------------------------------*/
 int aire_encendido(t_aire *aire)
 {
     if(aire->estado == true)
@@ -22,36 +23,23 @@ int aire_modo(t_aire *aire)
     }
     do
     {
-        system("clear"); ///observar
-        puts("AIRE\n------\n");
+        //system("clear"); ///observar
+        printf("AIRE\n------\n");
         printf("ESTADO: %s\n", aire->estado ? "ENCENDIDO" : "APAGADO");
         printf("MODO: %s\n", aire->modo);
         printf("TEMPERATURA: %d\n", aire->temperatura);
         puts("-----------------");
-        while(getchar() != '\n');  // LIMPIA EL BUFFER
-        puts(MENU_AIRES_MODO);
-        scanf("%c", &modo);
-        modo = toupper(modo);
-        if(strchr(OPC_MODO_AIRE, modo)==NULL)
-        {
-            system("clear");
-            puts("MODO INCORRECTO. INGRESE NUEVAMENTE:\n");
-            system("PAUSE");
-        }
-        system("clear");
+        validar_atributos(&modo, OPC_MODO_AIRE, MENU_AIRES_MODO);
         switch(modo)
         {
         case 'C':
             res = strcpy(aire->modo, "CALOR")? 1 : 0;
-            //modo = 'S';
             break;
         case 'F':
             res = strcpy(aire->modo, "FRIO")? 1 : 0;
-            //modo = 'S';
             break;
         case 'V':
             res = strcpy(aire->modo, "VENTILACION")? 1 : 0;
-            //modo = 'S';
             break;
         }
         system("clear");
@@ -70,14 +58,20 @@ int aire_temperatura(t_aire *aire)
     }
     do
     {
-        while(getchar() != '\n');  // LIMPIA EL BUFFER
-        puts("VALORES VALIDOS SON 15<TEMPERATURA<33\nINGRESE TEMPERATURA NUEVA:");
+        printf("AIRE\n------\n");
+        printf("ESTADO: %s\n", aire->estado ? "ENCENDIDO" : "APAGADO");
+        printf("MODO: %s\n", aire->modo);
+        printf("TEMPERATURA: %d\n", aire->temperatura);
+        puts("-----------------");
+        puts("VALORES VALIDOS SON 15 < TEMPERATURA < 33\nINGRESE TEMPERATURA NUEVA:");
         scanf("%d", &opc_temp);
         if(opc_temp < 16 || opc_temp > 32)
         {
             system("clear");
             puts("TEMPERATURA INCORRECTA. INGRESE NUEVAMENTE:\n");
-            system("PAUSE");
+            printf("Presioná Enter para continuar...");
+            while (getchar() != '\n'); // LIMPIA EL BUFFER
+            getchar();
         }
         else
         {
@@ -110,7 +104,7 @@ int luz_color(t_luz *luz)
     }
     do
     {
-        system("clear"); ///observar
+        //system("clear"); ///observar
         printf("LUZ\n------\n");
         printf("ESTADO: %s\n", luz->estado ? "ENCENDIDO" : "APAGADO");
         printf("COLOR: %s\n", luz->color);
@@ -157,13 +151,20 @@ int luz_intensidad(t_luz *luz)
     }
     do
     {
-        puts("VALORES VALIDOS SON 1 < INTENSIDAD < 10\nINGRESE TEMPERATURA NUEVA:");
+        printf("LUZ\n------\n");
+        printf("ESTADO: %s\n", luz->estado ? "ENCENDIDO" : "APAGADO");
+        printf("INTENSIDAD: %d\n", luz->intensidad);
+        printf("COLOR: %s\n", luz->color);
+        printf("-----------------\n");
+        puts("VALORES VALIDOS SON 1 < INTENSIDAD < 10\nINGRESE INTENSIDAD NUEVA:");
         scanf("%d", &opc_temp);
         if(opc_temp < 1 || opc_temp > 10)
         {
             system("clear");
             puts("VALOR INCORRECTO. INGRESE NUEVAMENTE:\n");
-            system("PAUSE");
+            printf("Presioná Enter para continuar...");
+            while (getchar() != '\n');
+            getchar();
         }
         else
         {
@@ -175,7 +176,7 @@ int luz_intensidad(t_luz *luz)
 
     return res;
 }
-/*---------------------------SMAR-TV-----------------------------------------*/
+/*------------------------SMAR-TV-----------------------------------------*/
 void smart_encendido(t_televisor *tv)
 {
     tv->estado = !tv->estado;
@@ -206,8 +207,8 @@ int smart_fuente(t_televisor * tv)
     system("clear");\
     switch(opc)
     {
-        case 'A':
-            strcpy(tv->fuente,"AMAZON PRIME");
+        case 'P':
+            strcpy(tv->fuente,"PRIME VIDEO");
             break;
         case 'D':
             strcpy(tv->fuente,"DISNEY");

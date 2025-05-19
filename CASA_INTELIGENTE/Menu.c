@@ -4,18 +4,7 @@ void seleccion_habitaciones(t_habitacion * hab){
     char opc;
     ///MOSTAR HABITACIONES DISPONIBLES EN LA CASA
     do{
-        while(getchar() != '\n');  // LIMPIA EL BUFFER
-        printf("%s", MENU_HABITACIONES);
-        scanf("%c", &opc);
-
-        opc = toupper(opc);
-        if(strchr(OPC_MENU_HAB, opc) == NULL ){
-            system("clear");
-            printf("%s", MENU_HABITACIONES);
-            printf("HABITACION INCORRECTA. INGRESE NUEVAMENTE: \n");
-            printf("Presiona Enter para continuar...");
-            getchar();
-        }
+        validar_atributos(&opc, OPC_MENU_HAB, MENU_HABITACIONES);
         system("clear");
         switch(opc)
         {
@@ -52,15 +41,16 @@ void seleccion_dispositivos(t_habitacion * hab)
         printf(MENU_DISPOSITIVOS_2, hab->nombre_habitacion,
                                     hab->cant_aires ? "A - Aires\n":" ",
                                     hab->cant_luces ? "L - Luces\n":" ",
-                                    hab->hay_tele ? "T - Smart TV\n":" ");
+                                    hab->hay_tele ? "T - Smart TV\n":" ");                                  
         scanf("%c", &opc_cli);
         opc_cli = toupper(opc_cli);
         if(strchr(opc_disp, opc_cli) == NULL)
         {
             puts("DISPOSITIVO NO VALIDO. INGRESE NUEVAMENTE:");
             //printf("DISPOSITIVO NO VALIDO. OPCIONES DISPONIBLES: %s. \nINGRESE NUEVAMENTE:",opc_disp);
-            system("PAUSE");
-
+            printf("Presioná Enter para continuar...");
+            while (getchar() != '\n'); //limpia el buffer
+            getchar();
         }
         system("clear");
         switch(opc_cli)
@@ -119,7 +109,9 @@ void Menu_Aires(t_aire * aires, int cant_aires)
             opc = Validar_Nro_Dispositivo(&atributo, cant_aires, AIRES);
             system("clear");
         }
-        
+        else
+            opc = 1;
+
         if(atributo != 'S' || cant_aires == 1)
         {
             validar_atributos(&atributo, OPC_MENU_AIRES, MENU_AIRES);
@@ -235,12 +227,12 @@ int Validar_Nro_Dispositivo(char * aux, int cant_dispositivos, int tipo_disp)
             printf(" UN AIRE A MODIFICAR (S PARA SALIR):");
             break;
     }
-    
+
     do {
         do{
             *aux = getchar();
         }while (*aux == '\n');
-               
+
         if (*aux == 's' || *aux == 'S') {
             *aux = 'S';
         } else if (isdigit(*aux)) {
@@ -259,7 +251,7 @@ void Menu_SmartTV(t_televisor * smart)
     char opc;
     do {
         printf("SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n",smart->estado ? "ENCENDIDO" : "APAGADO",smart->volumen,smart->fuente);
-        validar_atributos(&opc, OPC_MENU_SMART_TV, MENU_SMART_TV);   
+        validar_atributos(&opc, OPC_MENU_SMART_TV, MENU_SMART_TV);
         system("clear");
         switch(opc)
         {

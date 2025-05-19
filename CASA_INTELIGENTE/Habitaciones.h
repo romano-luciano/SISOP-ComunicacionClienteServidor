@@ -5,7 +5,7 @@
 
 #define CANT_HABITACIONES 6
 #define DORMITORIO_1    0
-#define BANIO            1
+#define BANIO           1
 #define COCINA          2
 #define DORMITORIO_2    3
 #define LIVING          4
