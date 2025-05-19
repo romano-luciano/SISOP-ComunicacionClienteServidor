@@ -1,20 +1,95 @@
 #include "Habitaciones.h"
 #include "Menu.h"
 
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#define PUERTO 8080
+#define MAX_CLIENTES 5
+#define TAM_BUFFER 1024
+
+// Función que manejará cada cliente en un hilo separado
+void* handle_client(void* client_socket_ptr) {
+    int client_socket = *(int*)client_socket_ptr;
+    free(client_socket_ptr);  // Liberar memoria reservada en main
+
+    char buffer[TAM_BUFFER];
+    int bytes_read;
+
+    printf("Cliente conectado. Socket: %d\n", client_socket);
+
+    while ((bytes_read = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
+        buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
+        printf("Mensaje recibido: %s\n", buffer);
+
+        // Echo: enviar de vuelta al cliente
+        send(client_socket, buffer, bytes_read, 0);
+    }
+
+    printf("Cliente desconectado. Socket: %d\n", client_socket);
+    close(client_socket);
+    return NULL;
+}
+
 int main(int argc, char * argv[])
 {
     t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
-
-    char path_arch_Hab[30];
-    int i;
-    for(i=1;i < argc;i++){
-        memcpy(&path_arch_Hab, argv[i], 30);
-        inicializar_habitaciones(habitaciones, argv[i]);
-        ///CARGAMOS LAS HABITACIONES DE LA CASA A MEMORIA
-    }
+    ///CARGAMOS LAS HABITACIONES DE LA CASA A MEMORIA
+    inicializar_habitaciones(habitaciones, argv[1]);
+    
     ///INICIAR SERVIDOR
+    int socket_casa, *socket_cliente_ptr;
+    struct sockaddr_in CASA_addr, cliente_addr;
+    socklen_t addr_len = sizeof(cliente_addr); //un tamaño del socket
+    pthread_t tid; //hilo
+
     ///CONFIGURAR LOS SOCKETS
-    ///CREAR HILOS DE PRUEBA
+    socket_casa = socket(AF_INET, SOCK_STREAM, 0);
+    if(socket_casa == -1){
+        perror("Error al crearel socket");
+        exit(EXIT_FAILURE);
+    }
+    CASA_addr.sin_family = AF_INET;
+    CASA_addr.sin_port = htons(PUERTO);
+    CASA_addr.sin_addr.s_addr = INADDR_ANY;
+
+    //Enlazo al puerto con bind
+    if(bind(socket_casa, (struct sockaddr*)&CASA_addr, sizeof(CASA_addr)) < 0){
+        perror("Error en bind");
+        close(socket_casa);
+        exit(EXIT_FAILURE);
+    }
+    //Escucho conexiones entrantes
+    if(listen(socket_casa, MAX_CLIENTES) < 0){
+        perror("Error en listen");
+        close(socket_casa);
+        exit(EXIT_FAILURE);
+    }
+    printf("Servidor escuchando en el puerto %d...\n", PUERTO);
+    ///CREACION DE HILOS PARA MULTIPLES CLIENTES
+    while (1)
+    {                                                                               //tamaño 
+        int cliente_socket = accept(socket_casa, (struct sockaddr*)&cliente_addr, &addr_len);
+        if(cliente_socket < 0){
+            prror("Error en accept");
+            continue;
+        }
+        //Asignar memoria para poder pasar como argumento al hilo
+        socket_cliente_ptr = malloc(sizeof(int));
+        *socket_cliente_ptr = cliente_socket;
+        //creo un hilo para manejar al cliente
+        if(pthread_create(&tid, NULL, handle_client, socket_cliente_ptr) != 0){
+            perror("Error al crear el hilo");
+            free(socket_cliente_ptr);
+            close(cliente_socket);
+        }
+        // Detach para liberar recursos automáticamente al terminar el hilo
+        pthread_detach(tid); //?????
+    }
+    close(socket_casa);
+    
+    ///HILOS DE PRUEBA
     /*
     pthread_t hilo_prueba; //declaro el hilo
     pthread_create(&hilo_prueba, NULL, (void*)seleccion_dispositivos, habitaciones); 
