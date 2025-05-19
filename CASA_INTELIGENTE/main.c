@@ -1,10 +1,9 @@
 #include "Habitaciones.h"
 #include "Menu.h"
 
-
 int main(int argc, char * argv[])
 {
-    t_habitacion habitaciones[CANT_HABITACIONES];
+    t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
 
     char path_arch_Hab[30];
     int i;
@@ -15,21 +14,23 @@ int main(int argc, char * argv[])
     }
     ///INICIAR SERVIDOR
     ///CONFIGURAR LOS SOCKETS
+    ///CREAR HILOS DE PRUEBA
+    /*
+    pthread_t hilo_prueba; //declaro el hilo
+    pthread_create(&hilo_prueba, NULL, (void*)seleccion_dispositivos, habitaciones); 
+    pthread_join(hilo_prueba, NULL); //espero a que terminen los hilos para terminar la ejecucion
 
+    pthread_mutex_t mutex; //declaro mutex
+    pthread_mutex_init(&mutex, NULL); //inicializo mutex
+    pthread_mutex_lock(&mutex); //bloquea zona critica
+    //zona critica
+    pthread_mutex_unlock(&mutex);//desbloquea zona critica
+    */
     ///PRUEBA DE MENU DISPOSITIVOS
     seleccion_habitaciones(habitaciones);
-    i = 5;
-    /*
-    printf(MENU_DISPOSITIVOS_1, habitaciones[i].nombre_habitacion,
-                                habitaciones[i].cant_aires?"D":"*",
-                                habitaciones[i].cant_luces?"D":"*",
-                                habitaciones[i].hay_tele?"D":"*");
-
-    puts("\n");
-    printf(MENU_DISPOSITIVOS_2, habitaciones[i].nombre_habitacion,
-                                habitaciones[i].cant_aires?"A - Aires\n":"\0",
-                                habitaciones[i].cant_luces?"L - Luces\n":"\0",
-                                habitaciones[i].hay_tele?"T - Smart TV\n":"\0");
-    */
+    /*--------------------------------------------------------*/
+    //primero configurar sockets y probar con un solo cliente
+    //junto con el guardado de archivo
+    /*---------------------------------------------------------*/
     return 0;
 }
