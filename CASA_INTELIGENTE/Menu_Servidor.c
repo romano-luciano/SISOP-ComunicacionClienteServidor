@@ -1,8 +1,9 @@
 #include "Menu.h"
 
 ///PRIMER MENU, HABITACIONES
-void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli, char *buffer)
+void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli)
 {
+    char buffer[TAM_BUFFER];
     do
     {
         validar_opciones_sock(OPC_MENU_HAB, MENU_HABITACIONES, sock_cli, buffer);
@@ -33,16 +34,16 @@ void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli, char *buffer)
 ///SEGUNDO MENU, DISPOSITIVOS
 void seleccion_dispositivos_sock(t_habitacion *hab, int sock_cli)
 {
-    char buffer[TAM_BUFFER], opc_disp[CANT_HABITACIONES-1];
-    int bytes_leidos, baytes_escritos;
+    char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER], opc_disp[CANT_HABITACIONES-1];
+    int baytes_escritos;
     vector_opc_disp_sock(hab, opc_disp);
     do
     {
-        baytes_escritos = sprintf(buffer, MENU_DISPOSITIVOS_2, hab->nombre_habitacion,
+        baytes_escritos = sprintf(menu_aux, MENU_DISPOSITIVOS_2, hab->nombre_habitacion,
                                                                 hab->cant_aires ? "A - Aires\n":" ",
                                                                 hab->cant_luces ? "L - Luces\n":" ",
                                                                 hab->hay_tele ? "T - Smart TV\n":" ");
-        validar_opciones_sock(opc_disp, buffer, sock_cli, buffer); ///envia lo escrito, y dspues lo usa para 
+        validar_opciones_sock(opc_disp, menu_aux, sock_cli, buffer);
         switch(*buffer)
         {
             case 'A':///AIRES
@@ -58,9 +59,111 @@ void seleccion_dispositivos_sock(t_habitacion *hab, int sock_cli)
     } while (*buffer != 'S');
 }
 ///TERCERMENU, ATRUBUTOS DEL DISPOSITIVO
-void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli);
-void Menu_Luces_sock(t_luz *luces, int cant_luces, int sock_cli);
-void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli);
+void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli)
+{
+    char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
+    int i, res, baytes_escritos = 0, opc_cli;
+    do
+    {
+        for(i=0;i<cant_aires;i++){
+            baytes_escritos += sprintf(menu_aux + baytes_escritos,
+                                    "AIRE %d\n------\nESTADO: %s\nMODO: %s\nTEMPERATURA: %d\n-----------------\nINDIQUE EL NUMERO DE AIRE:",
+                                    i + 1,
+                                    aires[i].estado ? "ENCENDIDO" : "APAGADO",
+                                    aires[i].modo, aires[i].temperatura) + 1;
+        }
+        if(cant_aires > 1)
+            opc_cli = Validar_Nro_Dispositivo_sock(cant_aires, sock_cli, buffer, menu_aux);
+        else
+            opc_cli = 1;
+        if(*buffer != 'S')
+            validar_opciones_sock(OPC_MENU_AIRES, MENU_AIRES, sock_cli, buffer);
+        switch(*buffer)
+        {
+            case 'E':///MODIFICAR ESTADO
+                res = aire_encendido(&aires[opc_cli - 1]);
+                send(sock_cli, res?"SE ENCENDIO EL AIRE\n":"ERROR AL ENCENDER EL AIRE\n", res?21:27,0);
+                /*
+                if(res = aire_encendido(&aires[opc_cli - 1]))
+                    puts("SE MODIFICO EL ENCENDIDO");
+                else
+                    puts("ERROR AL MODIFICAR ENCENDIDO");
+                */
+                break;
+            case 'M':///MENU Y MODIFICACION DE MODO
+                //aire_modo(&aires[opc_cli - 1]);
+                /*
+                if(res = aire_modo(&aires[opc_cli - 1]))
+                    puts("SE MODIFICO EL MODO");
+                else
+                    puts("ERROR AL MODIFICAR MODO");
+                */
+                break;
+            case 'T':///MODIFICAR TEMPERATURA
+                //aire_temperatura(&aires[opc_cli - 1]);
+                /*
+                if(res = aire_temperatura(&aires[opc_cli - 1]))
+                    puts("SE MODIFICO LA TEMPERATURA");
+                else
+                    puts("ERROR AL MODIFICAR MODO");
+                */
+                break;
+        }
+        } while (*buffer != 'S');
+
+}
+void Menu_Luces_sock(t_luz *luces, int cant_luces, int sock_cli)
+{
+    char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
+    int i, baytes_escritos = 0, opc_cli;
+    do
+    {
+        for(i=0;i<cant_luces;i++){
+            baytes_escritos += sprintf(menu_aux + baytes_escritos,
+                                        "LUZ %d\n------\nESTADO: %s\nINTENSIDAD: %d\nCOLOR: %s\n-----------------\nINDIQUE EL NUMERO DE LUZ:",
+                                        i + 1,
+                                        luces[i].estado ? "ENCENDIDO" : "APAGADO",
+                                        luces[i].intensidad, luces[i].color) + 1;
+        }
+        opc_cli = Validar_Nro_Dispositivo_sock(cant_luces, sock_cli, buffer, menu_aux);
+        if(*buffer != 'S')
+            validar_opciones_sock(OPC_MENU_AIRES, MENU_AIRES, sock_cli, buffer);
+        switch (*buffer)
+        {
+        case 'E': ///ENCIENDE LA LUZ
+            luz_encendido(&luces[opc_cli - 1]);
+            break;
+        case 'C':///CAMBIA EL COLOR
+            break;
+        case 'I':///MODIFICA LA INTENSIDAD
+            break;
+        }
+    } while (*buffer != 'S');
+}
+void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli)
+{
+    char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
+    do
+    {
+        sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n",
+                        smart->estado ? "ENCENDIDO" : "APAGADO",
+                        smart->volumen,
+                        smart->fuente);
+        validar_opciones_sock(OPC_MENU_SMART_TV, menu_aux, sock_cli, buffer);
+        switch(*buffer)
+        {
+            case 'E':
+                smart_encendido(smart);
+                break;
+            case 'F':
+                //smart_fuente(smart);
+                break;
+            case 'V':
+                //smart_volumen(smart);
+                break;
+        }
+    } while (*buffer != 'S');
+}
 ///UTILITARIAS
 void vector_opc_disp_sock(const t_habitacion *hab, char *opc_res)
 {
@@ -84,31 +187,31 @@ void vector_opc_disp_sock(const t_habitacion *hab, char *opc_res)
 void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int sock_cli, char *buffer)
 {
     int bytes_leidos;
-    send(sock_cli, menu_atributo, strlen(menu_atributo), 0);
     do
     {
-        if(bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0) > 0)
+        send(sock_cli, menu_atributo, strlen(menu_atributo), 0);
+        if((bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0)) > 0)
             buffer[bytes_leidos] = '\0';
         else
             break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????
         *buffer = toupper(*buffer);
         if(strchr(opc_val, *buffer) == NULL)
             send(sock_cli, "OPCION INVALIDA. INGRESE NUEVAMENTE.\n", 38, 0);
-    }while (strchr(opc_val, buffer) == NULL);
+    }while (strchr(opc_val, *buffer) == NULL);
 }
-int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int tipo_disp, int sock_cli, char *buffer)
+int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)
 {
     int opc_int, bytes_leidos;
-    send(sock_cli, "INDIQUE EL NUMERO DEL DISPOSITIVO.\n", 36, 0);
     do
     {
-        if(bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0) > 0)
+        send(sock_cli, menu_opciones, strlen(menu_opciones), 0);
+        if((bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0)) > 0)
             buffer[bytes_leidos] = '\0';
         else
             break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????
         if(*buffer == 's' || *buffer == 'S'){
             *buffer = 'S';
-        }else 
+        }else
             if(isdigit(*buffer)){
             opc_int = *buffer - '0';
                 if(opc_int < 1 || opc_int > cant_dispositivos)

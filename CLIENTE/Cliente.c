@@ -39,7 +39,7 @@ int main() {
         getchar(); // limpiar '\n'
 
         if (opcion == 'I') {
-            send(socket_cliente, "INICIAR", 4, 0);
+            send(socket_cliente, "INICIAR", 8, 0);
             // Recibir respuesta
             system("clear");
             while ((bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, MSG_DONTWAIT)) > 0) {
@@ -47,7 +47,7 @@ int main() {
                 printf("%s", buffer);
                 usleep(100000); // pequeña espera
                 opcion = getchar();
-                send(socket_cliente, opcion, 1, 0);
+                send(socket_cliente, &opcion, 2, 0);
                 system("clear");
             }
         }else if (opcion == 'S') {
