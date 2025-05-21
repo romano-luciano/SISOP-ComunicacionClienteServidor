@@ -34,7 +34,7 @@ void seleccion_habitaciones(t_habitacion * hab){
 void seleccion_dispositivos(t_habitacion * hab)
 {
     char opc_cli;
-    char opc_disp[CANT_HABITACIONES-1];
+    char opc_disp[CANT_HABITACIONES-1]; ///no tiene nada que ver cantidad de habitaciones
     vector_opc_disp(hab, opc_disp);
     do{
         while(getchar() != '\n');  // limpia buffer

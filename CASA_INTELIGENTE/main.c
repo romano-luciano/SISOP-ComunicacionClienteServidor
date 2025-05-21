@@ -1,13 +1,11 @@
 #include "Habitaciones.h"
 #include "Menu.h"
 
-#include <unistd.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
 #define PUERTO 8080
 #define MAX_CLIENTES 5
 #define TAM_BUFFER 1024
+
+t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
 
 // Función que manejará cada cliente en un hilo separado
 void* handle_client(void* client_socket_ptr) {
@@ -21,10 +19,12 @@ void* handle_client(void* client_socket_ptr) {
 
     while ((bytes_read = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
-        printf("Mensaje recibido: %s\n", buffer);
-
-        // Echo: enviar de vuelta al cliente
-        send(client_socket, buffer, bytes_read, 0);
+        if(strncmp(buffer, "INICIAR", 8) == 0){
+            seleccion_habitaciones_sock(habitaciones, client_socket, buffer);
+        }else if (strncmp(buffer, "SALIR", 5) == 0) {
+            break;
+        } else
+            send(client_socket, "Comando no reconocido.\n", 24, 0);
     }
 
     printf("Cliente desconectado. Socket: %d\n", client_socket);
@@ -34,7 +34,6 @@ void* handle_client(void* client_socket_ptr) {
 
 int main(int argc, char * argv[])
 {
-    t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
     ///CARGAMOS LAS HABITACIONES DE LA CASA A MEMORIA
     inicializar_habitaciones(habitaciones, argv[1]);
     
@@ -63,7 +62,7 @@ int main(int argc, char * argv[])
     //Escucho conexiones entrantes
     if(listen(socket_casa, MAX_CLIENTES) < 0){
         perror("Error en listen");
-        close(socket_casa);
+        close(socket_casa);         ///EL SERVIDOR SE CIERRA SI HAY MAS DEL MAXIMO DE CLIENTES
         exit(EXIT_FAILURE);
     }
     printf("Servidor escuchando en el puerto %d...\n", PUERTO);
@@ -102,7 +101,7 @@ int main(int argc, char * argv[])
     pthread_mutex_unlock(&mutex);//desbloquea zona critica
     */
     ///PRUEBA DE MENU DISPOSITIVOS
-    seleccion_habitaciones(habitaciones);
+    //seleccion_habitaciones(habitaciones);
     /*--------------------------------------------------------*/
     //primero configurar sockets y probar con un solo cliente
     //junto con el guardado de archivo
