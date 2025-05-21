@@ -10,7 +10,7 @@
 #define DORMITORIO_2    3
 #define LIVING          4
 #define PATIO           5
-#define TAM_BUFFER 100
+#define TAM_BUFFER 1024
 
 typedef struct
 {

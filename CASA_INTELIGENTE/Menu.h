@@ -101,16 +101,16 @@ int Validar_Nro_Dispositivo(char * aux, int cant_dispositivos, int tipo_disp);
 /*--------------------------------------------------------------------------*/
 
 ///PRIMER MENU, HABITACIONES
-void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli, char *buffer);
+void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli);
 ///SEGUNDO MENU, DISPOSITIVOS
 void seleccion_dispositivos_sock(t_habitacion *hab, int sock_cli);
 ///TERCERMENU, ATRUBUTOS DEL DISPOSITIVO
-void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli, char *buffer);
-void Menu_Luces_sock(t_luz *luces, int cant_luces, int sock_cli, char *buffer);
-void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli, char *buffer);
+void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli);
+void Menu_Luces_sock(t_luz *luces, int cant_luces, int sock_cli);
+void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli);
 ///UTILITARIAS
 void vector_opc_disp_sock(const t_habitacion *hab, char *opc_res);
 void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int sock_cli, char *buffer);
-int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int tipo_disp, int sock_cli, char *buffer);
+int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones);
 
 #endif // MENU_H_INCLUDED

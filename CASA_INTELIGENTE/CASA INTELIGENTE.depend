@@ -74,31 +74,37 @@
 1747285858 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA INTELIGENTE/Menu.c
 	"Menu.h"
 
-1747614900 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.c
+1747841726 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.c
 	"Dispositivos.h"
 	"Menu.h"
 
-1747539954 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.h
+1747850223 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
 	<string.h>
 	<pthread.h>
 	<ctype.h>
+	<unistd.h>
+	<netinet/in.h>
+	<arpa/inet.h>
 
-1747542724 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
+1747859380 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
 	"Habitaciones.h"
 
-1747493997 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.h
+1747854512 /home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.h
 	"Dispositivos.h"
 
-1747526045 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.c
+1747626473 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.c
 	"Habitaciones.h"
 
-1747493997 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/main.c
+1747859379 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/main.c
 	"Habitaciones.h"
 	"Menu.h"
 
-1747614686 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.c
+1747848491 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.c
+	"Menu.h"
+
+1747859614 source:/home/christti87/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu_Servidor.c
 	"Menu.h"
 

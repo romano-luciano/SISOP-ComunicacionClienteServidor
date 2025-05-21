@@ -3,7 +3,7 @@
 
 #define PUERTO 8080
 #define MAX_CLIENTES 5
-#define TAM_BUFFER 1024
+
 
 t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
 
@@ -16,11 +16,12 @@ void* handle_client(void* client_socket_ptr) {
     int bytes_read;
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
+    send(client_socket, "Conectado al servidor.\n", 24, 0);
 
     while ((bytes_read = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
-        if(strncmp(buffer, "INICIAR", 8) == 0){
-            seleccion_habitaciones_sock(habitaciones, client_socket, buffer);
+        if(strncmp(buffer, "INICIAR", 7) == 0){
+            seleccion_habitaciones_sock(habitaciones, client_socket);
         }else if (strncmp(buffer, "SALIR", 5) == 0) {
             break;
         } else
@@ -71,7 +72,7 @@ int main(int argc, char * argv[])
     {                                                                               //tamaño 
         int cliente_socket = accept(socket_casa, (struct sockaddr*)&cliente_addr, &addr_len);
         if(cliente_socket < 0){
-            prror("Error en accept");
+            perror("Error en accept");
             continue;
         }
         //Asignar memoria para poder pasar como argumento al hilo

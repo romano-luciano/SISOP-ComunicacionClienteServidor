@@ -11,7 +11,7 @@
 void mostrar_menu() {
     ///menu de inicio del servidor
     printf("\n--- MENÚ ---\n");
-    printf("1. Iniciar Servidor\n");
-    printf("2. Salir\n");
+    printf("I. Iniciar Servidor\n");
+    printf("S. Salir\n");
     printf("Seleccione una opción: ");
 }

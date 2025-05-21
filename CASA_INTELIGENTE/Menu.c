@@ -146,7 +146,6 @@ void Menu_Aires(t_aire * aires, int cant_aires)
 }
 void Menu_Luces(t_luz * luces, int cant_luces)
 {
-
     int i, res, opc;
     char atributo;
 
