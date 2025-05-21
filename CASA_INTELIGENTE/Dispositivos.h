@@ -7,6 +7,9 @@
 #include <string.h>
 #include <pthread.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #define LUCES    0
 #define AIRES    1
