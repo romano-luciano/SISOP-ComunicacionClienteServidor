@@ -197,6 +197,7 @@ void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int s
         *buffer = toupper(*buffer);
         if(strchr(opc_val, *buffer) == NULL)
             send(sock_cli, "OPCION INVALIDA. INGRESE NUEVAMENTE.\n", 38, 0);
+        printf("ACA: %s\n", buffer);
     }while (strchr(opc_val, *buffer) == NULL);
 }
 int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)

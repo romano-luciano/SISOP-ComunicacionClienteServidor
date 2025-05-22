@@ -22,6 +22,7 @@ void* handle_client(void* client_socket_ptr) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
             seleccion_habitaciones_sock(habitaciones, client_socket);
+            break;
         }else if (strncmp(buffer, "SALIR", 5) == 0) {
             break;
         } else

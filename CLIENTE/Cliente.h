@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#define SERVER_IP "172.24.64.1"
+#define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 8080
 #define TAM_BUFFER 1024
 

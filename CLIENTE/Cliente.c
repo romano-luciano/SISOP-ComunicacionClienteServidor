@@ -31,11 +31,12 @@ int main() {
         buffer[bytes] = '\0';
         printf("%s", buffer);
     }
-
+    /*
     // Menú interactivo
     while (1) {
         mostrar_menu();
         scanf("%c", &opcion);
+        while (getchar() != '\n'); // Limpiar el buffer
         getchar(); // limpiar '\n'
 
         if (opcion == 'I') {
@@ -44,7 +45,7 @@ int main() {
             system("clear");
             while ((bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, MSG_DONTWAIT)) > 0) {
                 buffer[bytes] = '\0';
-                printf("%s", buffer);
+                printf("%s", buffer);// mensaje del servidor
                 usleep(100000); // pequeña espera
                 opcion = getchar();
                 send(socket_cliente, &opcion, 2, 0);
@@ -56,7 +57,24 @@ int main() {
         } else {
             printf("Opción inválida.\n");
         }
+        printf("ACA_CLI: %c\n", opcion);
     }
+    */
+    send(socket_cliente, "INICIAR", 8, 0);
+    while (1)
+    {
+        while ((bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, MSG_DONTWAIT)) > 0)
+        {
+            buffer[bytes] = '\0';
+            printf("%s", buffer); // mensaje del servidor
+            usleep(100000);       // pequeña espera
+        }
+        opcion = getchar();
+        send(socket_cliente, &opcion, 2, 0);
+        system("clear");
+    }
+    send(socket_cliente, "SALIR", 6, 0);
+    printf("Se desconcecto del servidor...\n");
 
     close(socket_cliente);
     return 0;
