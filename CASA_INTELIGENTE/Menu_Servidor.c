@@ -10,22 +10,22 @@ void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli)
         switch (*buffer)
         {
             case 'A':///DORMITORIO 1
-                seleccion_dispositivos(&hab[DORMITORIO_1]);
+                seleccion_dispositivos_sock(&hab[DORMITORIO_1], sock_cli);
                 break;
             case 'B':///BAÑO
-                seleccion_dispositivos(&hab[BANIO]);
+                seleccion_dispositivos_sock(&hab[BANIO], sock_cli);
                 break;
             case 'C':///COCINA
-                seleccion_dispositivos(&hab[COCINA]);
+                seleccion_dispositivos_sock(&hab[COCINA], sock_cli);
                 break;
             case 'D':///DORMITORIO 2
-                seleccion_dispositivos(&hab[DORMITORIO_2]);
+                seleccion_dispositivos_sock(&hab[DORMITORIO_2], sock_cli);
                 break;
             case 'L':///LIVING
-                seleccion_dispositivos(&hab[LIVING]);
+                seleccion_dispositivos_sock(&hab[LIVING], sock_cli);
                 break;
             case 'P':///PATIO
-                seleccion_dispositivos(&hab[PATIO]);
+                seleccion_dispositivos_sock(&hab[PATIO], sock_cli);
                 break;
         }
         ///GUARDAR Y ESCRIBIR EL ARCHIVO
@@ -190,15 +190,16 @@ void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int s
     do
     {
         send(sock_cli, menu_atributo, strlen(menu_atributo), 0);
-        if((bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0)) > 0)
-            buffer[bytes_leidos] = '\0';
-        else
-            break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????
+        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
+        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+/*        else
+            break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????   */
         *buffer = toupper(*buffer);
         if(strchr(opc_val, *buffer) == NULL)
             send(sock_cli, "OPCION INVALIDA. INGRESE NUEVAMENTE.\n", 38, 0);
-        printf("ACA: %s\n", buffer);
+        printf("ACA: %s\n", buffer); ///print
     }while (strchr(opc_val, *buffer) == NULL);
+    printf("Opcion valida, paso el menu\n"); ///print
 }
 int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)
 {
