@@ -18,10 +18,12 @@ void* handle_client(void* client_socket_ptr) {
     printf("Cliente conectado. Socket: %d\n", client_socket);
     send(client_socket, "Conectado al servidor.\n", 24, 0);
 
-    while ((bytes_read = recv(client_socket, buffer, sizeof(buffer), 0)) > 0) {
+    while ((bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
+            printf("Entro al Servidor\n");
             seleccion_habitaciones_sock(habitaciones, client_socket);
+            //break;
         }else if (strncmp(buffer, "SALIR", 5) == 0) {
             break;
         } else

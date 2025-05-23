@@ -1,4 +1,20 @@
-#include "Cliente.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+#define SERVER_IP "127.0.0.1"
+#define SERVER_PORT 8080
+#define TAM_BUFFER 1024
+
+void mostrar_menu() {
+    ///menu de inicio del servidor
+    printf("\n--- MENÚ ---\n");
+    printf("I. Iniciar Servidor\n");
+    printf("S. Salir\n");
+    printf("Seleccione una opción: ");
+}
 
 int main() {
     int socket_cliente;
@@ -31,35 +47,7 @@ int main() {
         buffer[bytes] = '\0';
         printf("%s", buffer);
     }
-    /*
-    // Menú interactivo
-    while (1) {
-        mostrar_menu();
-        scanf("%c", &opcion);
-        while (getchar() != '\n'); // Limpiar el buffer
-        getchar(); // limpiar '\n'
-
-        if (opcion == 'I') {
-            send(socket_cliente, "INICIAR", 8, 0);
-            // Recibir respuesta
-            system("clear");
-            while ((bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, MSG_DONTWAIT)) > 0) {
-                buffer[bytes] = '\0';
-                printf("%s", buffer);// mensaje del servidor
-                usleep(100000); // pequeña espera
-                opcion = getchar();
-                send(socket_cliente, &opcion, 2, 0);
-                system("clear");
-            }
-        }else if (opcion == 'S') {
-            send(socket_cliente, "SALIR", 6, 0);
-            break;
-        } else {
-            printf("Opción inválida.\n");
-        }
-        printf("ACA_CLI: %c\n", opcion);
-    }
-    */
+    
     do
     {
         mostrar_menu();
@@ -85,16 +73,14 @@ int main() {
                 while (getchar() != '\n'); // Limpiar el buffer
                 send(socket_cliente, &opcion, 2, 0);
                 system("clear");
-                printf("ACA_CLI: %c\n", opcion);
+                //printf("ACA_CLI: %c\n", opcion);
             }
         }else if (opcion != 'S'){
             printf("Opcion no valida, intente denuevo:\n");
         }
-        printf("ACA_CLI: %c\n", opcion);
+        //printf("ACA_CLI: %c\n", opcion);
     } while (opcion != 'S');
-    //send(sock, "SALIR\n", 6, 0);
-    //send(socket_cliente, "SALIR", 6, 0);
-    //send(sock, "VER\n", 4, 0);
+    
     printf("Se desconcecto del servidor...\n");
 
     close(socket_cliente);
