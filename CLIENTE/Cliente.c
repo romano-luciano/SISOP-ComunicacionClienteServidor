@@ -71,6 +71,7 @@ int main() {
             send(socket_cliente, "INICIAR", 8, 0);
             while (1){
                 bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
+                ///si son 2 send, debo esperar unos segundos para leer todo
                 if(bytes > 0)
                 {
                     buffer[bytes] = '\0';

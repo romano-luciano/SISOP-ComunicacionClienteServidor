@@ -12,7 +12,7 @@
                             "D - Dormitorio chico\n"            \
                             "L - Living\n"                      \
                             "P - Patio\n"                       \
-                            "S - Salir\n"                       \
+                            "S - Salir del SERVIDOR\n"                       \
                             "-->"
 #define OPC_MENU_HAB "ABCDLPS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
@@ -43,7 +43,8 @@
                         "-->"
 #define OPC_MODO_AIRE "CFVS"
 /*-------------------------LUCES-----------------------------------------*/
-#define MENU_LUCES  "LUCES MULTICOLORES\n"                               \
+#define MENU_LUCES  "LUZ %d\n"                                         \
+                    "-------------\n"                                  \
                     "Elija un atributo de las luces a cambiar\n"        \
                     "C - Color\n"                                       \
                     "E - Encendido\n"                                   \

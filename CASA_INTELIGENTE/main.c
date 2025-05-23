@@ -23,7 +23,7 @@ void* handle_client(void* client_socket_ptr) {
         if(strncmp(buffer, "INICIAR", 7) == 0){
             printf("Entro al Servidor\n");
             seleccion_habitaciones_sock(habitaciones, client_socket);
-            //break;
+            break; //prueba
         }else if (strncmp(buffer, "SALIR", 5) == 0) {
             break;
         } else

@@ -62,27 +62,31 @@ void seleccion_dispositivos_sock(t_habitacion *hab, int sock_cli)
 void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
-    int i, res, baytes_escritos = 0, opc_cli;
+    int i, res, baytes_escritos, opc_cli;
     do
     {
+        baytes_escritos = 0;
         for(i=0;i<cant_aires;i++){
             baytes_escritos += sprintf(menu_aux + baytes_escritos,
-                                    "AIRE %d\n------\nESTADO: %s\nMODO: %s\nTEMPERATURA: %d\n-----------------\nINDIQUE EL NUMERO DE AIRE:",
+                                    "AIRE %d\n------\nESTADO: %s\nMODO: %s\nTEMPERATURA: %d\n-----------------\n",
                                     i + 1,
                                     aires[i].estado ? "ENCENDIDO" : "APAGADO",
-                                    aires[i].modo, aires[i].temperatura) + 1;
+                                    aires[i].modo, aires[i].temperatura);
         }
+        sprintf(menu_aux + baytes_escritos, "INDIQUE EL NUMERO DE AIRE:");
         if(cant_aires > 1)
             opc_cli = Validar_Nro_Dispositivo_sock(cant_aires, sock_cli, buffer, menu_aux);
         else
             opc_cli = 1;
-        if(*buffer != 'S')
-            validar_opciones_sock(OPC_MENU_AIRES, MENU_AIRES, sock_cli, buffer);
+        if(*buffer != 'S'){
+            sprintf(menu_aux, MENU_AIRES, opc_cli);
+            validar_opciones_sock(OPC_MENU_AIRES, menu_aux, sock_cli, buffer);
+        }
         switch(*buffer)
         {
             case 'E':///MODIFICAR ESTADO
                 res = aire_encendido(&aires[opc_cli - 1]);
-                send(sock_cli, res?"SE ENCENDIO EL AIRE\n":"ERROR AL ENCENDER EL AIRE\n", res?21:27,0);
+                //send(sock_cli, res?"SE ENCENDIO EL AIRE\n":"ERROR AL ENCENDER EL AIRE\n", res?21:27,0);
                 /*
                 if(res = aire_encendido(&aires[opc_cli - 1]))
                     puts("SE MODIFICO EL ENCENDIDO");
@@ -115,19 +119,26 @@ void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli)
 void Menu_Luces_sock(t_luz *luces, int cant_luces, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
-    int i, baytes_escritos = 0, opc_cli;
+    int i, baytes_escritos, opc_cli;
     do
     {
+        baytes_escritos = 0;
         for(i=0;i<cant_luces;i++){
             baytes_escritos += sprintf(menu_aux + baytes_escritos,
-                                        "LUZ %d\n------\nESTADO: %s\nINTENSIDAD: %d\nCOLOR: %s\n-----------------\nINDIQUE EL NUMERO DE LUZ:",
+                                        "LUZ %d\n------\nESTADO: %s\nINTENSIDAD: %d\nCOLOR: %s\n-----------------\n",
                                         i + 1,
                                         luces[i].estado ? "ENCENDIDO" : "APAGADO",
-                                        luces[i].intensidad, luces[i].color) + 1;
+                                        luces[i].intensidad, luces[i].color);
         }
-        opc_cli = Validar_Nro_Dispositivo_sock(cant_luces, sock_cli, buffer, menu_aux);
-        if(*buffer != 'S')
-            validar_opciones_sock(OPC_MENU_AIRES, MENU_AIRES, sock_cli, buffer);
+        sprintf(menu_aux + baytes_escritos, "INDIQUE EL NUMERO DE LUZ:");
+        if(cant_luces > 1)
+            opc_cli = Validar_Nro_Dispositivo_sock(cant_luces, sock_cli, buffer, menu_aux);
+        else
+            opc_cli = 1;
+        if(*buffer != 'S'){
+            sprintf(menu_aux, MENU_LUCES, opc_cli);
+            validar_opciones_sock(OPC_MENU_LUCES, menu_aux, sock_cli, buffer);
+        }
         switch (*buffer)
         {
         case 'E': ///ENCIENDE LA LUZ
@@ -192,35 +203,33 @@ void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int s
         send(sock_cli, menu_atributo, strlen(menu_atributo), 0);
         bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
         bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
-/*        else
-            break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????   */
+
         *buffer = toupper(*buffer);
         if(strchr(opc_val, *buffer) == NULL)
             send(sock_cli, "OPCION INVALIDA. INGRESE NUEVAMENTE.\n", 38, 0);
         printf("ACA: %s\n", buffer); ///print
     }while (strchr(opc_val, *buffer) == NULL);
-    printf("Opcion valida, paso el menu\n"); ///print
+    //printf("Opcion valida, paso el menu\n"); ///print
 }
 int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)
 {
-    int opc_int, bytes_leidos;
+    int opc_cli, bytes_leidos;
     do
     {
         send(sock_cli, menu_opciones, strlen(menu_opciones), 0);
-        if((bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0)) > 0)
-            buffer[bytes_leidos] = '\0';
-        else
-            break; ///SALE Y CIERRA SERVIDOR SI NO ENVIA NADA????
+        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
+        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+
         if(*buffer == 's' || *buffer == 'S'){
             *buffer = 'S';
-        }else
+        }else{
             if(isdigit(*buffer)){
-            opc_int = *buffer - '0';
-                if(opc_int < 1 || opc_int > cant_dispositivos)
-                send(sock_cli, "OPCION NO VALIDAD. INGRESE UN NUMERO DISPONIBLE O 'S' PARA SALIR.\n", 67, 0);
-            else
+                opc_cli = *buffer - '0'; //transforma el string a entero
+                if(opc_cli < 1 || opc_cli > cant_dispositivos)
+                    send(sock_cli, "OPCION NO VALIDAD. INGRESE UN NUMERO DISPONIBLE O 'S' PARA SALIR.\n", 67, 0);
+            }else
                 send(sock_cli, "ENTRADA NO VALIDA. INGRESE UN NUMERO O 'S' PARA SALIR.\n", 56, 0);
         }
-    } while (*buffer != 'S' && (opc_int < 1 || opc_int > cant_dispositivos));
-    return opc_int;
+    } while (*buffer != 'S' && (opc_cli < 1 || opc_cli > cant_dispositivos));
+    return opc_cli;
 }

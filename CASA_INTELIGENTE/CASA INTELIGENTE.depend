@@ -123,7 +123,7 @@
 	<netinet/in.h>
 	<arpa/inet.h>
 
-1747938539 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
+1748014705 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
 	"Habitaciones.h"
 
 1747938539 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.h
@@ -132,13 +132,13 @@
 1747938539 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.c
 	"Habitaciones.h"
 
-1748004704 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/main.c
+1748010431 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/main.c
 	"Habitaciones.h"
 	"Menu.h"
 
 1747938539 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.c
 	"Menu.h"
 
-1747974141 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu_Servidor.c
+1748011539 source:/home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu_Servidor.c
 	"Menu.h"
 
