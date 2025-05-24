@@ -4,7 +4,7 @@ int main() {
     int socket_cliente;
     struct sockaddr_in server_addr;
     char buffer[TAM_BUFFER];
-    char opcion;
+    char opcion[3];
 
     // Crear socket
     socket_cliente = socket(AF_INET, SOCK_STREAM, 0);
@@ -63,11 +63,11 @@ int main() {
     do
     {
         mostrar_menu();
-        scanf("%c", &opcion);
+        scanf("%s", opcion);
         while (getchar() != '\n'); // Limpiar el buffer
         //printf("ACA_CLI: %c\n", opcion);
-        //getchar(); // limpiar '\n'
-        if (opcion == 'I'){
+        
+        if (*opcion == 'I'){
             send(socket_cliente, "INICIAR", 8, 0);
             system("clear");
             while (1){
@@ -80,20 +80,21 @@ int main() {
                 }
                 else
                 {
-                    opcion = 'S';
+                    
+                    *opcion = 'S';
                     break;
                 }
-                scanf("%c", &opcion);
+                scanf("%s", opcion);
                 while (getchar() != '\n'); // Limpiar el buffer
-                send(socket_cliente, &opcion, 2, 0);
+                send(socket_cliente, opcion, sizeof(opcion), 0);
                 system("clear");
-                printf("ACA_CLI: %c\n", opcion);
+                printf("ACA_CLI: %s\n", opcion);
             }
-        }else if (opcion != 'S'){
+        }else if (*opcion != 'S'){
             printf("Opcion no valida, intente denuevo:\n");
         }
-        printf("ACA_CLI: %c\n", opcion);
-    } while (opcion != 'S');
+        printf("ACA_sali: %s\n", opcion);
+    } while (*opcion != 'S');
     
     printf("Se desconcecto del servidor...\n");
 

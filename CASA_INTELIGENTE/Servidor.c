@@ -170,7 +170,7 @@ void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli)
     int bytes_escritos;
     do
     {
-        bytes_escritos=sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n",
+        bytes_escritos=sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n----------------\n",
                         smart->estado ? "ENCENDIDO" : "APAGADO",
                         smart->volumen,
                         smart->fuente);
@@ -216,12 +216,14 @@ void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int s
     do
     {
         send(sock_cli, menu_atributo, strlen(menu_atributo), 0);
-        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
-        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0); ///leemos de forma bloqueante
+        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");  ///leimos?? si no leimos escribimos una 'S' para desconectarte
 
         *buffer = toupper(*buffer);
-        if(strchr(opc_val, *buffer) == NULL)
-            send(sock_cli, "OPCION INVALIDA. INGRESE NUEVAMENTE.\n", 38, 0);
+        if(strchr(opc_val, *buffer) == NULL){
+            send(sock_cli, "OPCION NO VALIDA.\nPresioná una tecla para continuar o 'S' para salir...", 73, 0);
+            recv(sock_cli, buffer, sizeof(buffer)-1, 0);
+        }
         //printf("ACA: %s\n", buffer); ///print
     }while (strchr(opc_val, *buffer) == NULL);
     //printf("Opcion valida, paso el menu\n"); ///print
@@ -231,19 +233,22 @@ int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buff
     int opc_cli, bytes_leidos;
     do
     {
+        opc_cli = 0;
         send(sock_cli, menu_opciones, strlen(menu_opciones), 0);
         bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
-        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+        bytes_leidos? buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
 
         if(*buffer == 's' || *buffer == 'S'){
             *buffer = 'S';
         }else{
             if(isdigit(*buffer)){
-                opc_cli = *buffer - '0'; //transforma el string a entero
-                if(opc_cli < 1 || opc_cli > cant_dispositivos)
-                    send(sock_cli, "OPCION NO VALIDAD. INGRESE UN NUMERO DISPONIBLE O 'S' PARA SALIR.\n", 67, 0);
+                opc_cli = atoi(buffer); //*buffer - '0'; transforma el string a entero
+                if(opc_cli < 1 || opc_cli > cant_dispositivos){
+                    send(sock_cli, "NUMERO NO VALIDO.\nIngrese una letra para continuar o 'S' para salir...", 71, 0);
+                    recv(sock_cli, buffer, sizeof(buffer)-1, 0);
+                }
             }else
-                send(sock_cli, "ENTRADA NO VALIDA. INGRESE UN NUMERO O 'S' PARA SALIR.\n", 56, 0);
+                send(sock_cli, "ENTRADA NO VALIDA.\nIngrese una letra para continuar o 'S' para salir...", 72, 0);
         }
     } while (*buffer != 'S' && (opc_cli < 1 || opc_cli > cant_dispositivos));
     return opc_cli;
@@ -293,34 +298,20 @@ int luz_color_sock(t_luz *luz, int sock_cli)
             break;
         }
     } while (*buffer != 'S');
-    
+    return res;
 }
 int luz_intensidad_sock(t_luz *luz, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
-    int bytes_leidos, bytes_escritos, res;
-    do
-    {
-        bytes_escritos=sprintf(menu_aux ,
-                                "LUZ\n--------\nESTADO: %s\nINTENSIDAD: %d\nCOLOR: %s\n-----------------\n",
-                                luz->estado ? "ENCENDIDO" : "APAGADO",
-                                luz->intensidad, luz->color);
-        bytes_escritos+=sprintf(menu_aux + bytes_escritos, "VALORES VALIDOS SON 1 < INTENSIDAD < 10\nINGRESE INTENSIDAD NUEVA O 'S' PARA SALIR:");
-        send(sock_cli, menu_aux, bytes_escritos, 0);
-        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
-        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
-        if(*buffer == 's' || *buffer == 'S'){
-            *buffer = 'S';
-        }else{
-            if(isdigit(*buffer)){
-                res = *buffer - '0'; //transforma el string a entero
-                if(res < 1 || res > 10)
-                    send(sock_cli, "OPCION NO VALIDAD. INGRESE UN NUMERO DISPONIBLE O 'S' PARA SALIR.\n", 67, 0);
-            }else
-                send(sock_cli, "ENTRADA NO VALIDA. INGRESE UN NUMERO O 'S' PARA SALIR.\n", 56, 0);
-        }
-    } while (*buffer != 'S' && (res < 1 || res > 10));
-    return luz->intensidad = res;
+    int  bytes_escritos, res;
+
+    bytes_escritos = sprintf(menu_aux,
+                             "LUZ\n--------\nESTADO: %s\nINTENSIDAD: %d\nCOLOR: %s\n-----------------\n",
+                             luz->estado ? "ENCENDIDO" : "APAGADO",
+                             luz->intensidad, luz->color);
+    sprintf(menu_aux + bytes_escritos, "VALORES VALIDOS SON 1 < INTENSIDAD < 11\nINGRESE INTENSIDAD NUEVA O 'S' PARA SALIR: ");
+    res = Validar_Nro_Dispositivo_sock(11, sock_cli, buffer, menu_aux);
+    return res?luz->intensidad = res:res;
 }
 /*------------------AIRE-SOCK--------------------------*/
 int aire_encendido_sock(t_aire *aire)
@@ -334,6 +325,7 @@ int aire_modo_sock(t_aire *aire, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int baytes_escritos, res;
+    ///PODEMOS AGREGAR UN BLOQUEO SI EL AIRE NO ESTA ENCENDIDO
     do
     {
         baytes_escritos=sprintf(menu_aux,
@@ -361,25 +353,31 @@ int aire_temperatura_sock(t_aire *aire, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int bytes_leidos, bytes_escritos, res;
+    ///PODEMOS AGREGAR UN BLOQUEO SI EL AIRE NO ESTA ENCENDIDO
     do
     {
+        res = aire->temperatura;
         bytes_escritos=sprintf(menu_aux,
                                 "AIRE\n------\nESTADO: %s\nMODO: %s\nTEMPERATURA: %d\n-----------------\n",
                                 aire->estado ? "ENCENDIDO" : "APAGADO",
                                 aire->modo, aire->temperatura);
-        bytes_escritos += sprintf(menu_aux + bytes_escritos, "VALORES VALIDOS SON 15 < TEMPERATURA < 33\nINGRESE TEMPERATURA NUEVA O 'S' PARA SALIR:");
+        bytes_escritos += sprintf(menu_aux + bytes_escritos, "VALORES VALIDOS SON 15 < TEMPERATURA < 33\nINGRESE TEMPERATURA NUEVA O 'S' PARA SALIR: ");
         send(sock_cli, menu_aux, bytes_escritos, 0);
-        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);
-        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+        bytes_leidos = recv(sock_cli, buffer, sizeof(buffer) - 1, 0);///Leemos el buffer
+        bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");///si no leimos escribimos un 'S'
         if(*buffer == 's' || *buffer == 'S'){
             *buffer = 'S';
         }else{
             if(isdigit(*buffer)){
-                res = *buffer - '0'; //transforma el string a entero
-                if(res < 16 || res > 32)
-                    send(sock_cli, "OPCION NO VALIDAD. INGRESE UN NUMERO DISPONIBLE O 'S' PARA SALIR.\n", 67, 0);
-            }else
-                send(sock_cli, "ENTRADA NO VALIDA. INGRESE UN NUMERO O 'S' PARA SALIR.\n", 56, 0);
+                res = atoi(buffer);//*buffer - '0'; transforma el UN string a entero
+                if(res < 16 || res > 32){
+                    send(sock_cli, "TEMPERATURA NO VALIDAD.\nIngrese una letra para continuar...", 60, 0);
+                    recv(sock_cli, buffer, sizeof(buffer)-1, 0);
+                }
+            }else{
+                send(sock_cli, "ENTRADA NO VALIDA.\nIngrese una letra  para continuar...", 56, 0);
+                recv(sock_cli, buffer, sizeof(buffer)-1, 0);
+            }
         }
     } while (*buffer != 'S' && (res < 16 || res > 32));
     return aire->temperatura = res;
@@ -425,12 +423,12 @@ int smart_fuente_sock(t_televisor * tv, int sock_cli)
 int smart_volumen_sock(t_televisor * tv, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
-    int baytes_escritos, res;
-    baytes_escritos=sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n-----------------\n",
+    int bytes_escritos, res;
+    bytes_escritos=sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n-----------------\n",
                                 tv->estado ? "ENCENDIDO" : "APAGADO",
                                 tv->volumen,
                                 tv->fuente);
-    sprintf(menu_aux + baytes_escritos, "Ingrese volumen (0 - 100) o 'S' para salir:");
-    res = Validar_Nro_Dispositivo_sock(100, sock_cli, buffer, menu_aux);
-    return res;
+    sprintf(menu_aux + bytes_escritos, "Ingrese volumen (1 - 100) o 'S' para salir: ");
+    res = Validar_Nro_Dispositivo_sock(101, sock_cli, buffer, menu_aux);
+    return res?tv->volumen = res:res;
 }
