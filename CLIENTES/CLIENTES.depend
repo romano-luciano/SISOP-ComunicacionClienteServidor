@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1747950529 source:/home/chris/SISOP-ComunicacionClienteServidor/CLIENTES/main.c
+1748048015 source:/home/chris/SISOP-ComunicacionClienteServidor/CLIENTES/main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

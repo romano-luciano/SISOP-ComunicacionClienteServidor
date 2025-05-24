@@ -56,4 +56,17 @@ void smart_encendido(t_televisor *tv);
 int smart_fuente(t_televisor * tv);
 int smart_volumen(t_televisor * tv);
 void modificar_volumen_smart(t_televisor * t);
+/*------------------LUZ-SOCK---------------------------*/
+int luz_encendido_sock(t_luz *luz);
+int luz_color_sock(t_luz *luz, int sock_cli);
+int luz_intensidad_sock(t_luz *luz, int sock_cli);
+/*------------------AIRE-SOCK--------------------------*/
+int aire_encendido_sock(t_aire *aire);
+int aire_modo_sock(t_aire *aire, int sock_cli);
+int aire_temperatura_sock(t_aire *aire, int sock_cli);
+/*------------------SMART-TV-SOCK----------------------*/
+int smart_encendido_sock(t_televisor *tv);
+int smart_fuente_sock(t_televisor * tv, int sock_cli);
+int smart_volumen_sock(t_televisor * tv, int sock_cli);
+
 #endif // DISPOSITIVOS_H_INCLUDED

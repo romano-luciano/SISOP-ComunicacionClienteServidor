@@ -12,7 +12,7 @@
                             "D - Dormitorio chico\n"            \
                             "L - Living\n"                      \
                             "P - Patio\n"                       \
-                            "S - Salir\n"                       \
+                            "S - Salir del SERVIDOR\n"                       \
                             "-->"
 #define OPC_MENU_HAB "ABCDLPS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
@@ -26,7 +26,7 @@
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/
-#define MENU_AIRES  "Seleccione un atributo del aire que desee modificar\n"  \
+#define MENU_AIRES  "Seleccione un atributo del aire que desee modificar\n"     \
                     "E - Encendido\n"                                           \
                     "M - Modo\n"                                                \
                     "T - Temperatura\n"                                         \
@@ -34,8 +34,7 @@
                     "-->"
 #define OPC_MENU_AIRES "EMTS"
 
-#define MENU_AIRES_MODO "-------------\n"                               \
-                        "Elija un modo para el aire acondicionado\n"    \
+#define MENU_AIRES_MODO "Elija un modo para el aire acondicionado\n"    \
                         "C - Calor\n"                                   \
                         "F - Frio\n"                                    \
                         "V - Ventilacion\n"                             \
@@ -43,8 +42,7 @@
                         "-->"
 #define OPC_MODO_AIRE "CFVS"
 /*-------------------------LUCES-----------------------------------------*/
-#define MENU_LUCES  "LUCES MULTICOLORES\n"                               \
-                    "Elija un atributo de las luces a cambiar\n"        \
+#define MENU_LUCES  "Elija un atributo de las luces a cambiar\n"        \
                     "C - Color\n"                                       \
                     "E - Encendido\n"                                   \
                     "I - Intensidad\n"                                  \
@@ -52,8 +50,7 @@
                     "-->"
 #define OPC_MENU_LUCES "CEIS"
 
-#define MENU_COLORES_LUCES  "COLOR DE LUCES\n"                          \
-                            "Elija un color para las luces\n"           \
+#define MENU_COLORES_LUCES  "Elija un color para las luces\n"           \
                             "A - Amarillo\n"                            \
                             "B - Azul\n"                                \
                             "G - Verde\n"                               \
@@ -65,8 +62,7 @@
                             "-->"
 #define OPC_COLORES_LUCES   "ABGNRVWS"
 /*------------------------SMART-TV-------------------------------------*/
-#define MENU_SMART_TV   "----------------\n"                            \
-                        "Elija un atributo para modificar del smart\n"  \
+#define MENU_SMART_TV   "Elija un atributo para modificar del smart\n"  \
                         "E - Encendido\n"                               \
                         "F - Fuente\n"                                  \
                         "V - Volumen\n"                                 \
@@ -74,8 +70,7 @@
                         "-->"
 #define OPC_MENU_SMART_TV "EFVS"
 
-#define MENU_FUENTE_TV  "FUENTE DE LA TELEVISION\n"                     \
-                        "Elija una plataforma para reproducir\n"        \
+#define MENU_FUENTE_TV  "Elija una plataforma para reproducir\n"        \
                         "D - Disney\n"                                  \
                         "N - Netflix\n"                                 \
                         "P - Prime Video\n"                              \

@@ -65,12 +65,14 @@ int main() {
         mostrar_menu();
         scanf("%c", &opcion);
         while (getchar() != '\n'); // Limpiar el buffer
-        printf("ACA_CLI: %c\n", opcion);
+        //printf("ACA_CLI: %c\n", opcion);
         //getchar(); // limpiar '\n'
         if (opcion == 'I'){
             send(socket_cliente, "INICIAR", 8, 0);
+            system("clear");
             while (1){
                 bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
+                ///si son 2 send, debo esperar unos segundos para leer todo
                 if(bytes > 0)
                 {
                     buffer[bytes] = '\0';
@@ -92,9 +94,7 @@ int main() {
         }
         printf("ACA_CLI: %c\n", opcion);
     } while (opcion != 'S');
-    //send(sock, "SALIR\n", 6, 0);
-    //send(socket_cliente, "SALIR", 6, 0);
-    //send(sock, "VER\n", 4, 0);
+    
     printf("Se desconcecto del servidor...\n");
 
     close(socket_cliente);
