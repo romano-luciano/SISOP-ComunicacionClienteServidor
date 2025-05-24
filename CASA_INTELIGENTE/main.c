@@ -8,16 +8,16 @@
 t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
 
 // Función que manejará cada cliente en un hilo separado
-void* handle_client(void* client_socket_ptr) {
+void* manejar_cliente(void* client_socket_ptr) {
     int client_socket = *(int*)client_socket_ptr;
     free(client_socket_ptr);  // Liberar memoria reservada en main
 
     char buffer[TAM_BUFFER];
-    int bytes_read;
+    int bytes_leidos;
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
     send(client_socket, "Conectado al servidor.\n", 24, 0);
-
+/*
     while ((bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
@@ -30,7 +30,15 @@ void* handle_client(void* client_socket_ptr) {
         } else
             send(client_socket, "Comando no reconocido.\n", 24, 0);
     }
-
+*/
+    bytes_leidos = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
+    if(bytes_leidos){
+        buffer[bytes_leidos] = '\0';  // Asegurar terminación de cadena
+        if(strncmp(buffer, "INICIAR", 7) == 0){
+            printf("Entro al Servidor el cliente %d\n", client_socket); ///print
+            seleccion_habitaciones_sock(habitaciones, client_socket);
+        }
+    }
     printf("Cliente desconectado. Socket: %d\n", client_socket);
     close(client_socket);
     return NULL;
@@ -82,7 +90,7 @@ int main(int argc, char * argv[])
         socket_cliente_ptr = malloc(sizeof(int));
         *socket_cliente_ptr = cliente_socket;
         //creo un hilo para manejar al cliente
-        if(pthread_create(&tid, NULL, handle_client, socket_cliente_ptr) != 0){
+        if(pthread_create(&tid, NULL, manejar_cliente, socket_cliente_ptr) != 0){
             perror("Error al crear el hilo");
             free(socket_cliente_ptr);
             close(cliente_socket);
