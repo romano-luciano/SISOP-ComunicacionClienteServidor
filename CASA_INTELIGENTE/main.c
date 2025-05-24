@@ -21,9 +21,10 @@ void* handle_client(void* client_socket_ptr) {
     while ((bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
         buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
-            printf("Entro al Servidor\n");
+            printf("Entro al Servidor el cliente %d\n", client_socket); ///print
             seleccion_habitaciones_sock(habitaciones, client_socket);
-            break; //prueba
+            break;
+        ///SE PUEDE OMITIR TODO EL ELSE, no hay mas opciones que iniciar
         }else if (strncmp(buffer, "SALIR", 5) == 0) {
             break;
         } else

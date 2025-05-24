@@ -4,12 +4,22 @@
 	<ActiveTarget name="Debug" />
 	<File name="Dispositivos.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="666" topLine="16" />
+			<Cursor1 position="666" topLine="22" />
 		</Cursor>
 	</File>
-	<File name="Dispositivos.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="Servidor.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="672" topLine="0" />
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="757" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="Habitaciones.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="165" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Menu.c" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
@@ -20,20 +30,9 @@
 			<Collapse line="71" />
 		</Folding>
 	</File>
-	<File name="Menu_Servidor.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7230" topLine="63" />
-		</Cursor>
-		<Folding>
-			<Collapse line="62" />
-			<Collapse line="115" />
-			<Collapse line="143" />
-			<Collapse line="168" />
-		</Folding>
-	</File>
 	<File name="Menu.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5844" topLine="0" />
+			<Cursor1 position="5844" topLine="82" />
 		</Cursor>
 	</File>
 	<File name="Habitaciones.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
@@ -46,14 +45,9 @@
 			<Collapse line="114" />
 		</Folding>
 	</File>
-	<File name="Habitaciones.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+	<File name="Dispositivos.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="165" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="757" topLine="12" />
+			<Cursor1 position="672" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

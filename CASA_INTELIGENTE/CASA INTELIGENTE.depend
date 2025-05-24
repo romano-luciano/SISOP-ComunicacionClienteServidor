@@ -112,7 +112,7 @@
 	"Dispositivos.h"
 	"Menu.h"
 
-1747946231 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.h
+1748046008 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Dispositivos.h
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -123,7 +123,7 @@
 	<netinet/in.h>
 	<arpa/inet.h>
 
-1748014705 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
+1748046257 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Menu.h
 	"Habitaciones.h"
 
 1747938539 /home/chris/SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE/Habitaciones.h

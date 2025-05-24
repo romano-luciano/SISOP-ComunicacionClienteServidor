@@ -44,7 +44,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Menu.h" />
-		<Unit filename="Menu_Servidor.c">
+		<Unit filename="Servidor.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">
