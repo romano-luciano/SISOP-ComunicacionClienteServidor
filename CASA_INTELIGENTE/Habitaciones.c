@@ -79,6 +79,7 @@ void trozar_luz(char * punt, t_habitacion * h)
            &h->luces[k].intensidad,
            h->luces[k].color);
         h->luces[k].estado = (estado != 0);
+        pthread_rwlock_init(&h->luces[k].lock, NULL);//INICIALIZAR MUTEX
         punt = dos_puntos;
         //printf("%s;%d;%s|", h->luces[k].estado ? "true" : "false", h->luces[k].intensidad, h->luces[k].color);
     }
@@ -106,6 +107,7 @@ void trozar_aire(char * punt, t_habitacion * h)
            h->aires[i].modo);
 
         h->aires[i].estado = (estado != 0);
+        pthread_rwlock_init(&h->aires[i].lock, NULL);
         punt = dos_puntos;
         //printf("%s;%d;%s|", h->aires[i].estado ? "true" : "false", h->aires[i].temperatura, h->aires[i].modo);
 
@@ -125,5 +127,6 @@ void trozar_tele(char * punt, t_habitacion * h)
            &h->tele->volumen,
            h->tele->fuente);
     h->tele->estado = (estado != 0);
+    pthread_rwlock_init(&h->tele->lock, NULL);
     //printf("%s;%s;%d|", h->tele->estado ? "true" : "false", h->tele->fuente, h->tele->volumen);
 }

@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
         exit(EXIT_FAILURE);
     }
     //Escucho conexiones entrantes
-    if(listen(socket_casa, MAX_CLIENTES) < 0){
+    if(listen(socket_casa, MAX_CLIENTES) < 0){ ///probar cola de espera
         perror("Error en listen");
         close(socket_casa);         ///EL SERVIDOR SE CIERRA SI HAY MAS DEL MAXIMO DE CLIENTES
         exit(EXIT_FAILURE);

@@ -68,11 +68,19 @@ void Menu_Aires_sock(t_aire * aires, int cant_aires, int sock_cli)
     {
         bytes_escritos = 0;
         for(i=0;i<cant_aires;i++){
-            bytes_escritos += sprintf(menu_aux + bytes_escritos,
+            if(pthread_rwlock_tryrdlock(&aires[i].lock) == 0)
+            {
+                bytes_escritos += sprintf(menu_aux + bytes_escritos,
                                     "AIRE %d\n------\nESTADO: %s\nMODO: %s\nTEMPERATURA: %d\n-----------------\n",
                                     i + 1,
                                     aires[i].estado ? "ENCENDIDO" : "APAGADO",
                                     aires[i].modo, aires[i].temperatura);
+                pthread_rwlock_unlock(&aires[i].lock);
+            }
+            else
+                bytes_escritos += sprintf(menu_aux + bytes_escritos,
+                                            "AIRE %d esta siendo modificado\n---------------\n", i + 1);
+            
         }
         sprintf(menu_aux + bytes_escritos, "INDIQUE EL NUMERO DE AIRE O 'S' PARA SALIR:");
         if(cant_aires > 1)
