@@ -151,18 +151,19 @@ void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli)
 void menu_aire_sock(t_aire *aire, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
-    int res, bytes_escritos;
-    pthread_rwlock_wrlock(&aire->lock);
-    /*
-    if(pthread_rwlock_wrlock(&aire->lock) < 0)
+    int res, bytes_leidos, bytes_escritos;
+    if(pthread_rwlock_trywrlock(&aire->lock) != 0)
     {
         do
         {
-            send(sock_cli, "La tele esta siendo modificada...\nIngres 'A' para actualizar o 'S' para salir");
-            recv();
-        } while(pthread_rwlock_wrlock(&aire->lock) < 0);
+            bytes_escritos = send(sock_cli, "La tele esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir", 79, 0);
+            bytes_leidos = recv(sock_cli, buffer, sizeof(buffer), 0);
+            bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+        } while((pthread_rwlock_trywrlock(&aire->lock) < 0) && *buffer != 'S');
+        if(*buffer == 'S')
+            return;
     }
-    */
+    pthread_rwlock_wrlock(&aire->lock);
     do
     {
         bytes_escritos = 0;
