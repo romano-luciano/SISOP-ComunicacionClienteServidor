@@ -97,6 +97,7 @@ int main(int argc, char * argv[])
         }
         // Detach para liberar recursos automáticamente al terminar el hilo
         pthread_detach(tid); //?????
+        ///join para esperar los hijo y despues salir con exit
     }
     close(socket_casa);
     
