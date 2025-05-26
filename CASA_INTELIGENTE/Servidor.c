@@ -123,7 +123,10 @@ void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int bytes_escritos;
-    pthread_rwlock_wrlock(&smart->lock);
+    if(pedir_dispositivo_sock(&smart->lock, sock_cli, SMART_TV))
+        pthread_rwlock_wrlock(&smart->lock);
+    else
+        return;
     do
     {
         bytes_escritos=sprintf(menu_aux, "SMART TV\n--------\nESTADO: %s\nVOLUMEN: %d\nFUENTE: %s\n----------------\n",
@@ -152,18 +155,11 @@ void menu_aire_sock(t_aire *aire, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int res, bytes_leidos, bytes_escritos;
-    if(pthread_rwlock_trywrlock(&aire->lock) != 0)
-    {
-        do
-        {
-            bytes_escritos = send(sock_cli, "La tele esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir", 79, 0);
-            bytes_leidos = recv(sock_cli, buffer, sizeof(buffer), 0);
-            bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
-        } while((pthread_rwlock_trywrlock(&aire->lock) < 0) && *buffer != 'S');
-        if(*buffer == 'S')
-            return;
-    }
-    pthread_rwlock_wrlock(&aire->lock);
+    
+    if(pedir_dispositivo_sock(&aire->lock, sock_cli, AIRES))
+        pthread_rwlock_wrlock(&aire->lock);
+    else
+        return;
     do
     {
         bytes_escritos = 0;
@@ -212,7 +208,11 @@ void menu_luz_sock(t_luz *luz, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int  bytes_escritos;
-    pthread_rwlock_wrlock(&luz->lock);
+    
+    if(pedir_dispositivo_sock(&luz->lock, sock_cli, LUCES))
+        pthread_rwlock_wrlock(&luz->lock);
+    else
+        return;
     do
     {
         bytes_escritos = 0;
@@ -275,7 +275,7 @@ void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int s
     }while (strchr(opc_val, *buffer) == NULL);
     //printf("Opcion valida, paso el menu\n"); ///print
 }
-int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)
+int  Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones)
 {
     int opc_cli, bytes_leidos;
     do
@@ -299,6 +299,27 @@ int Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buff
         }
     } while (*buffer != 'S' && (opc_cli < 1 || opc_cli > cant_dispositivos));
     return opc_cli;
+}
+int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp)
+{
+    char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
+    int bytes_leidos, bytes_escritos;
+    if(pthread_rwlock_trywrlock(lock) != 0)
+    {
+        do
+        {
+            bytes_escritos = sprintf(menu_aux, " %s esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir",
+                                    disp == LUCES?"La luz":"",
+                                    disp == AIRES?"El aire":"",
+                                    disp == SMART_TV?"La tele":"");
+            send(sock_cli, menu_aux, bytes_escritos, 0);
+            bytes_leidos = recv(sock_cli, buffer, sizeof(buffer), 0);
+            bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");
+        } while((pthread_rwlock_trywrlock(lock) != 0) && *buffer != 'S');
+        if(*buffer == 'S')
+            return 0;
+    }
+    return 1;
 }
 /*------------------LUZ-SOCK---------------------------*/
 int luz_encendido_sock(t_luz *luz)
