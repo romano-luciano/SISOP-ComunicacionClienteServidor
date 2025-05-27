@@ -292,10 +292,14 @@ int  Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buf
                 opc_cli = atoi(buffer); //*buffer - '0'; transforma el string a entero
                 if(opc_cli < 1 || opc_cli > cant_dispositivos){
                     send(sock_cli, "NUMERO NO VALIDO.\nIngrese una letra para continuar o 'S' para salir...", 71, 0);
-                    recv(sock_cli, buffer, sizeof(buffer)-1, 0);
+                    if(recv(sock_cli, buffer, sizeof(buffer)-1, 0))
+                        opc_cli = cant_dispositivos + 1;
                 }
-            }else
+            }else{
                 send(sock_cli, "ENTRADA NO VALIDA.\nIngrese una letra para continuar o 'S' para salir...", 72, 0);
+                if(recv(sock_cli, buffer, sizeof(buffer)-1, 0))
+                        opc_cli = cant_dispositivos + 1;
+            }
         }
     } while (*buffer != 'S' && (opc_cli < 1 || opc_cli > cant_dispositivos));
     return opc_cli;
@@ -308,10 +312,8 @@ int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp)
     {
         do
         {
-            bytes_escritos = sprintf(menu_aux, " %s esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir",
-                                    disp == LUCES?"La luz":"",
-                                    disp == AIRES?"El aire":"",
-                                    disp == SMART_TV?"La tele":"");
+            bytes_escritos = sprintf(menu_aux, "%s esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir",
+                                    disp == LUCES?"La luz":disp == AIRES?"El aire":"La tele");
             send(sock_cli, menu_aux, bytes_escritos, 0);
             bytes_leidos = recv(sock_cli, buffer, sizeof(buffer), 0);
             bytes_leidos?buffer[bytes_leidos] = '\0':sprintf(buffer, "S");

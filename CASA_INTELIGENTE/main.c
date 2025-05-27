@@ -4,6 +4,10 @@
 #define PUERTO 8080
 #define MAX_CLIENTES 5
 
+int clientes_activos = 0;
+pthread_mutex_t mutex_clientes; //= PTHREAD_MUTEX_INITIALIZER;
+pthread_t hilos[MAX_CLIENTES]; // guardar los hilos
+int hilo_cant = 0;
 
 t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
 
@@ -35,12 +39,18 @@ void* manejar_cliente(void* client_socket_ptr) {
     if(bytes_leidos){
         buffer[bytes_leidos] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
-            printf("Entro al Servidor el cliente %d\n", client_socket); ///print
+            //printf("Entro al Servidor el cliente %d\n", client_socket); ///print
             seleccion_habitaciones_sock(habitaciones, client_socket);
         }
     }
     printf("Cliente desconectado. Socket: %d\n", client_socket);
     close(client_socket);
+
+    pthread_mutex_lock(&mutex_clientes);
+    clientes_activos--;
+    printf("Clientes Activos %d\n", clientes_activos);
+    pthread_mutex_unlock(&mutex_clientes);
+
     return NULL;
 }
 
@@ -53,7 +63,7 @@ int main(int argc, char * argv[])
     int socket_casa, *socket_cliente_ptr;
     struct sockaddr_in CASA_addr, cliente_addr;
     socklen_t addr_len = sizeof(cliente_addr); //un tamaño del socket
-    pthread_t tid; //hilo
+    pthread_mutex_init(&mutex_clientes, NULL);
 
     ///CONFIGURAR LOS SOCKETS
     socket_casa = socket(AF_INET, SOCK_STREAM, 0);
@@ -86,38 +96,45 @@ int main(int argc, char * argv[])
             perror("Error en accept");
             continue;
         }
+        pthread_mutex_lock(&mutex_clientes);
+        clientes_activos++;
+        printf("clintes activos %d\n", clientes_activos);
+        pthread_mutex_unlock(&mutex_clientes);
+
         //Asignar memoria para poder pasar como argumento al hilo
         socket_cliente_ptr = malloc(sizeof(int));
         *socket_cliente_ptr = cliente_socket;
+
         //creo un hilo para manejar al cliente
-        if(pthread_create(&tid, NULL, manejar_cliente, socket_cliente_ptr) != 0){
+        /*
+        if(pthread_create(&hilos[hilo_cant], NULL, manejar_cliente, socket_cliente_ptr) != 0){
             perror("Error al crear el hilo");
             free(socket_cliente_ptr);
             close(cliente_socket);
         }
-        // Detach para liberar recursos automáticamente al terminar el hilo
-        pthread_detach(tid); //?????
-        ///join para esperar los hijo y despues salir con exit
-    }
-    close(socket_casa);
-    
-    ///HILOS DE PRUEBA
-    /*
-    pthread_t hilo_prueba; //declaro el hilo
-    pthread_create(&hilo_prueba, NULL, (void*)seleccion_dispositivos, habitaciones); 
-    pthread_join(hilo_prueba, NULL); //espero a que terminen los hilos para terminar la ejecucion
+        */
+        pthread_create(&hilos[hilo_cant], NULL, manejar_cliente, socket_cliente_ptr);
+        hilo_cant++;
+        printf("Cantidad de Hilos %d\n", hilo_cant);
 
-    pthread_mutex_t mutex; //declaro mutex
-    pthread_mutex_init(&mutex, NULL); //inicializo mutex
-    pthread_mutex_lock(&mutex); //bloquea zona critica
-    //zona critica
-    pthread_mutex_unlock(&mutex);//desbloquea zona critica
-    */
-    ///PRUEBA DE MENU DISPOSITIVOS
-    //seleccion_habitaciones(habitaciones);
-    /*--------------------------------------------------------*/
-    //primero configurar sockets y probar con un solo cliente
-    //junto con el guardado de archivo
-    /*---------------------------------------------------------*/
+        // Verificar si ya no hay más clientes conectados:
+        //pthread_mutex_lock(&mutex_clientes);
+        if (clientes_activos == 0 && hilo_cant > 0)
+        {
+            //pthread_mutex_unlock(&mutex_clientes);
+            break; // salir del bucle y cerrar servidor
+        }
+        //pthread_mutex_unlock(&mutex_clientes);
+    }
+
+    // Esperar que todos los hilos terminen
+    for (int i = 0; i < hilo_cant; i++)
+    {
+        pthread_join(hilos[i], NULL);
+    }
+
+    close(socket_casa);
+    printf("Servidor cerrado porque todos los clientes terminaron.\n");
+    
     return 0;
 }
