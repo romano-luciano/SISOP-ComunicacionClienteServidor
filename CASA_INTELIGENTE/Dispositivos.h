@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <sys/select.h>
 
 #define LUCES    0
 #define AIRES    1

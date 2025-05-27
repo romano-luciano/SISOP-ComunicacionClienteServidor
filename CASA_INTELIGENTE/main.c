@@ -21,26 +21,13 @@ void* manejar_cliente(void* client_socket_ptr) {
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
     send(client_socket, "Conectado al servidor.\n", 24, 0);
-/*
-    while ((bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0)) > 0) {
-        buffer[bytes_read] = '\0';  // Asegurar terminación de cadena
-        if(strncmp(buffer, "INICIAR", 7) == 0){
-            printf("Entro al Servidor el cliente %d\n", client_socket); ///print
-            seleccion_habitaciones_sock(habitaciones, client_socket);
-            break;
-        ///SE PUEDE OMITIR TODO EL ELSE, no hay mas opciones que iniciar
-        }else if (strncmp(buffer, "SALIR", 5) == 0) {
-            break;
-        } else
-            send(client_socket, "Comando no reconocido.\n", 24, 0);
-    }
-*/
+
     bytes_leidos = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
     if(bytes_leidos){
         buffer[bytes_leidos] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
-            //printf("Entro al Servidor el cliente %d\n", client_socket); ///print
             seleccion_habitaciones_sock(habitaciones, client_socket);
+            send(client_socket, "bye", 4, 0);
         }
     }
     printf("Cliente desconectado. Socket: %d\n", client_socket);
@@ -64,6 +51,9 @@ int main(int argc, char * argv[])
     struct sockaddr_in CASA_addr, cliente_addr;
     socklen_t addr_len = sizeof(cliente_addr); //un tamaño del socket
     pthread_mutex_init(&mutex_clientes, NULL);
+    fd_set fd_leidos;   ///permite multiples lecturas y escrituras simultaneas con Select()
+    struct timeval tiempo_fuera;    ///timpo que el select va a esperar para no bloquearse
+    int maxfd = socket_casa;
 
     ///CONFIGURAR LOS SOCKETS
     socket_casa = socket(AF_INET, SOCK_STREAM, 0);
@@ -90,41 +80,58 @@ int main(int argc, char * argv[])
     printf("Servidor escuchando en el puerto %d...\n", PUERTO);
     ///CREACION DE HILOS PARA MULTIPLES CLIENTES
     while (1)
-    {                                                                               //tamaño 
-        int cliente_socket = accept(socket_casa, (struct sockaddr*)&cliente_addr, &addr_len);
-        if(cliente_socket < 0){
-            perror("Error en accept");
+    {    
+        FD_ZERO(&fd_leidos); ///inicializo file descriptor
+        FD_SET(socket_casa, &fd_leidos);
+        
+        tiempo_fuera.tv_sec = 10;    //1 segundo
+        tiempo_fuera.tv_usec = 0;   //microsegundos
+        
+        int actividad = select(maxfd + 1, &fd_leidos, NULL, NULL, &tiempo_fuera);
+        if(actividad < 0)
+        {
+            perror("Select");
+            break;
+        }
+        if(actividad == 0)
+        {
+            //tiempo fuera verificamos si no hoy clinete nuevo. Se puede cerrar?
+            pthread_mutex_lock(&mutex_clientes);
+            if(clientes_activos == 0 && hilo_cant > 0)
+            {
+                pthread_mutex_unlock(&mutex_clientes);
+                break;
+            }
+            pthread_mutex_unlock(&mutex_clientes);
             continue;
         }
-        pthread_mutex_lock(&mutex_clientes);
-        clientes_activos++;
-        printf("clintes activos %d\n", clientes_activos);
-        pthread_mutex_unlock(&mutex_clientes);
-
-        //Asignar memoria para poder pasar como argumento al hilo
-        socket_cliente_ptr = malloc(sizeof(int));
-        *socket_cliente_ptr = cliente_socket;
-
-        //creo un hilo para manejar al cliente
-        /*
-        if(pthread_create(&hilos[hilo_cant], NULL, manejar_cliente, socket_cliente_ptr) != 0){
-            perror("Error al crear el hilo");
-            free(socket_cliente_ptr);
-            close(cliente_socket);
-        }
-        */
-        pthread_create(&hilos[hilo_cant], NULL, manejar_cliente, socket_cliente_ptr);
-        hilo_cant++;
-        printf("Cantidad de Hilos %d\n", hilo_cant);
-
-        // Verificar si ya no hay más clientes conectados:
-        //pthread_mutex_lock(&mutex_clientes);
-        if (clientes_activos == 0 && hilo_cant > 0)
+        if (FD_ISSET(socket_casa, &fd_leidos))
         {
-            //pthread_mutex_unlock(&mutex_clientes);
-            break; // salir del bucle y cerrar servidor
+            int cliente_socket = accept(socket_casa, (struct sockaddr *)&cliente_addr, &addr_len);
+            if (cliente_socket < 0)
+            {
+                perror("Error en accept");
+                continue;
+            }
+            pthread_mutex_lock(&mutex_clientes);
+            clientes_activos++;
+            printf("clintes activos %d\n", clientes_activos);
+            pthread_mutex_unlock(&mutex_clientes);
+
+            // Asignar memoria para poder pasar como argumento al hilo
+            socket_cliente_ptr = malloc(sizeof(int));
+            *socket_cliente_ptr = cliente_socket;
+
+            // creo un hilo para manejar al cliente
+            if (pthread_create(&hilos[hilo_cant], NULL, manejar_cliente, socket_cliente_ptr) != 0)
+            {
+                perror("Error al crear el hilo");
+                free(socket_cliente_ptr);
+                close(cliente_socket);
+            }
+            hilo_cant++;
+            printf("Cantidad de Hilos %d\n", hilo_cant);
         }
-        //pthread_mutex_unlock(&mutex_clientes);
     }
 
     // Esperar que todos los hilos terminen
