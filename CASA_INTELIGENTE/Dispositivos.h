@@ -1,6 +1,8 @@
 #ifndef DISPOSITIVOS_H_INCLUDED
 #define DISPOSITIVOS_H_INCLUDED
 
+#define _XOPEN_SOURCE 700
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -10,6 +12,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <sys/select.h>
 
 #define LUCES    0
 #define AIRES    1
@@ -24,7 +27,7 @@ typedef struct
     bool estado;
     int intensidad;
     char color[TAM_COLOR]; ///Menu
-    pthread_mutex_t mutex;
+    pthread_rwlock_t lock;
 }t_luz;
 
 typedef struct
@@ -32,7 +35,7 @@ typedef struct
     bool estado;
     int temperatura;
     char modo[TAM_MODO]; ///Menu
-    pthread_mutex_t mutex;
+    pthread_rwlock_t lock;
 }t_aire;
 
 typedef struct
@@ -40,7 +43,7 @@ typedef struct
 	int estado;
 	int volumen;
     char fuente[TAM_FUENTE]; ///Menu
-	pthread_mutex_t mutex;
+	pthread_rwlock_t lock;
 }t_televisor;
 
 /*----------------LUZ-------------------*/

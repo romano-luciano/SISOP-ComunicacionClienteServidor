@@ -31,35 +31,7 @@ int main() {
         buffer[bytes] = '\0';
         printf("%s", buffer);
     }
-    /*
-    // Menú interactivo
-    while (1) {
-        mostrar_menu();
-        scanf("%c", &opcion);
-        while (getchar() != '\n'); // Limpiar el buffer
-        getchar(); // limpiar '\n'
-
-        if (opcion == 'I') {
-            send(socket_cliente, "INICIAR", 8, 0);
-            // Recibir respuesta
-            system("clear");
-            while ((bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, MSG_DONTWAIT)) > 0) {
-                buffer[bytes] = '\0';
-                printf("%s", buffer);// mensaje del servidor
-                usleep(100000); // pequeña espera
-                opcion = getchar();
-                send(socket_cliente, &opcion, 2, 0);
-                system("clear");
-            }
-        }else if (opcion == 'S') {
-            send(socket_cliente, "SALIR", 6, 0);
-            break;
-        } else {
-            printf("Opción inválida.\n");
-        }
-        printf("ACA_CLI: %c\n", opcion);
-    }
-    */
+    
     do
     {
         mostrar_menu();
@@ -72,16 +44,21 @@ int main() {
             system("clear");
             while (1){
                 bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
-                ///si son 2 send, debo esperar unos segundos para leer todo
                 if(bytes > 0)
                 {
                     buffer[bytes] = '\0';
+                    if(strncmp(buffer, "bye", 3) == 0)
+                    {
+                        printf("hasta luego! vuelva porto!...\n");
+                        break;
+                    }
                     printf("%s", buffer); // mensaje del servidor
                 }
                 else
                 {
                     
-                    *opcion = 'S';
+                    printf("Cierre inesperado...\n"); ///manejo de cierre inesperado
+                    *opcion = 'S';              ///si recv() no lee nada, cierra la conexion
                     break;
                 }
                 scanf("%s", opcion);
@@ -93,7 +70,7 @@ int main() {
         }else if (*opcion != 'S'){
             printf("Opcion no valida, intente denuevo:\n");
         }
-        printf("ACA_sali: %s\n", opcion);
+        //printf("ACA_sali: %s\n", opcion);
     } while (*opcion != 'S');
     
     printf("Se desconcecto del servidor...\n");
