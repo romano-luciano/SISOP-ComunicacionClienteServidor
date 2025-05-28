@@ -53,7 +53,7 @@ int main(int argc, char * argv[])
     pthread_mutex_init(&mutex_clientes, NULL);
     fd_set fd_leidos;   ///permite multiples lecturas y escrituras simultaneas con Select()
     struct timeval tiempo_fuera;    ///timpo que el select va a esperar para no bloquearse
-    int maxfd = socket_casa;
+    int fd_sock;
 
     ///CONFIGURAR LOS SOCKETS
     socket_casa = socket(AF_INET, SOCK_STREAM, 0);
@@ -61,6 +61,7 @@ int main(int argc, char * argv[])
         perror("Error al crearel socket");
         exit(EXIT_FAILURE);
     }
+    fd_sock = socket_casa;
     CASA_addr.sin_family = AF_INET;
     CASA_addr.sin_port = htons(PUERTO);
     CASA_addr.sin_addr.s_addr = INADDR_ANY;
@@ -84,10 +85,10 @@ int main(int argc, char * argv[])
         FD_ZERO(&fd_leidos); ///inicializo file descriptor
         FD_SET(socket_casa, &fd_leidos);
         
-        tiempo_fuera.tv_sec = 10;    //1 segundo
+        tiempo_fuera.tv_sec = 10;    //10 segundo
         tiempo_fuera.tv_usec = 0;   //microsegundos
         
-        int actividad = select(maxfd + 1, &fd_leidos, NULL, NULL, &tiempo_fuera);
+        int actividad = select(fd_sock + 1, &fd_leidos, NULL, NULL, &tiempo_fuera);
         if(actividad < 0)
         {
             perror("Select");
@@ -97,6 +98,7 @@ int main(int argc, char * argv[])
         {
             //tiempo fuera verificamos si no hoy clinete nuevo. Se puede cerrar?
             pthread_mutex_lock(&mutex_clientes);
+            printf("Timeout: activos=%d, hilos=%d\n", clientes_activos, hilo_cant);
             if(clientes_activos == 0 && hilo_cant > 0)
             {
                 pthread_mutex_unlock(&mutex_clientes);
