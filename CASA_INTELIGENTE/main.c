@@ -66,7 +66,7 @@ int main(int argc, char * argv[])
     {
         sleep(1); // Esperar 1 segundo
         pthread_mutex_lock(&mutex_clientes);
-        if(clientes_activos == 0 && actividad)
+        if(clientes_activos == 0 && actividad > 0)
         {
             // No hay clientes activos, cerramos el servidor
             printf("No hay clientes activos. Cerrando servidor...\n");
@@ -86,41 +86,47 @@ void* aceptar_clientes(void *cliente_t)
     t_cliente cliente = *(t_cliente*)cliente_t;
     while (1)
     {
-        if(clientes_activos <= MAX_CLIENTES)
-        {
-            int sock_cliente = accept(cliente.socket_casa, (struct sockaddr *)&cliente.cliente_dir, &cliente.tam_dir_cliente);
-            if (sock_cliente < 0)
-            {
-                perror("Error en accept");
-                break;
-            }
-            pthread_mutex_lock(&mutex_clientes);
-            if(actividad == 0)
-                actividad = 1;
-            clientes_activos++;
-            printf("clientes activos %d\n", clientes_activos);
-            pthread_mutex_unlock(&mutex_clientes);
+        pthread_mutex_lock(&mutex_clientes);
+        int current_clients = clientes_activos;
+        pthread_mutex_unlock(&mutex_clientes);
 
-            // Asignar memoria para poder pasar como argumento al hilo
-            int *socket_cliente_ptr = malloc(sizeof(int));
-            *socket_cliente_ptr = sock_cliente;
-
-            // creo un hilo para manejar al cliente
-            pthread_t hilo_cli;
-            if (pthread_create(&hilo_cli, NULL, manejar_cliente, socket_cliente_ptr) != 0)
-            {
-                perror("Error al crear el hilo");
-                free(socket_cliente_ptr);
-                close(sock_cliente);
-                pthread_mutex_lock(&mutex_clientes);
-                clientes_activos--;
-                //printf("Clientes Activos %d\n", clientes_activos);
-                pthread_mutex_unlock(&mutex_clientes);
-            }
-            else
-                pthread_detach(hilo_cli);
+        if (current_clients >= MAX_CLIENTES) {
+            // Esperar un poco para evitar busy wait
+            //usleep(100000); // 100ms
+            sleep(1); // Esperar 1 segundo
+            continue;
         }
-        
+        int sock_cliente = accept(cliente.socket_casa, (struct sockaddr *)&cliente.cliente_dir, &cliente.tam_dir_cliente);
+        if (sock_cliente < 0)
+        {
+            perror("Error en accept");
+            break;
+        }
+        pthread_mutex_lock(&mutex_clientes);
+        if (actividad == 0)
+            actividad = 1;
+        clientes_activos++;
+        printf("clientes activos %d\n", clientes_activos);
+        pthread_mutex_unlock(&mutex_clientes);
+
+        // Asignar memoria para poder pasar como argumento al hilo
+        int *socket_cliente_ptr = malloc(sizeof(int));
+        *socket_cliente_ptr = sock_cliente;
+
+        // creo un hilo para manejar al cliente
+        pthread_t hilo_cli;
+        if (pthread_create(&hilo_cli, NULL, manejar_cliente, socket_cliente_ptr) != 0)
+        {
+            perror("Error al crear el hilo");
+            free(socket_cliente_ptr);
+            close(sock_cliente);
+            pthread_mutex_lock(&mutex_clientes);
+            clientes_activos--;
+            // printf("Clientes Activos %d\n", clientes_activos);
+            pthread_mutex_unlock(&mutex_clientes);
+        }
+        else
+            pthread_detach(hilo_cli);
     }
 }
 // Función que manejará cada cliente en un hilo separado
