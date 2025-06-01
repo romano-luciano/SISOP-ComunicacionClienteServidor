@@ -49,7 +49,7 @@ int main() {
                     buffer[bytes] = '\0';
                     if(strncmp(buffer, "bye", 3) == 0)
                     {
-                        printf("hasta luego! vuelva porto!...\n");
+                        printf("hasta luego! vuelva pronto!... :)\n");
                         break;
                     }
                     printf("%s", buffer); // mensaje del servidor
@@ -67,13 +67,13 @@ int main() {
                 system("clear");
                 printf("ACA_CLI: %s\n", opcion);
             }
-        }else if (*opcion != 'S'){
+        }else if (*opcion != 'S' && *opcion != 's'){
             printf("Opcion no valida, intente denuevo:\n");
         }
         //printf("ACA_sali: %s\n", opcion);
     } while (*opcion != 'S');
     
-    printf("Se desconcecto del servidor...\n");
+    printf("Se desconecto del servidor...\n");
 
     close(socket_cliente);
     return 0;
