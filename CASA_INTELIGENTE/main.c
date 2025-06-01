@@ -52,7 +52,7 @@ int main(int argc, char * argv[])
         exit(EXIT_FAILURE);
     }
     //Escucho conexiones entrantes
-    if(listen(socket_casa, MAX_CLIENTES) < 0){ ///probar cola de espera
+    if(listen(socket_casa, 3) < 0){ ///probar cola de espera
         perror("Error en listen");
         close(socket_casa);
         exit(EXIT_FAILURE);
@@ -76,8 +76,12 @@ int main(int argc, char * argv[])
         pthread_mutex_unlock(&mutex_clientes);
     }
     close(socket_casa);
+    ///canceralia el hilo de accept
+    pthread_cancel(hilo_accept);
     printf("Servidor cerrado porque todos los clientes terminaron.\n");
     pthread_mutex_destroy(&mutex_clientes);
+    //grabar archivo modificados
+    //liberar memoria
     return 0;
 }
 //Aceptar clientes y generar hilos
@@ -102,12 +106,6 @@ void* aceptar_clientes(void *cliente_t)
             perror("Error en accept");
             break;
         }
-        pthread_mutex_lock(&mutex_clientes);
-        if (actividad == 0)
-            actividad = 1;
-        clientes_activos++;
-        printf("clientes activos %d\n", clientes_activos);
-        pthread_mutex_unlock(&mutex_clientes);
 
         // Asignar memoria para poder pasar como argumento al hilo
         int *socket_cliente_ptr = malloc(sizeof(int));
@@ -120,13 +118,17 @@ void* aceptar_clientes(void *cliente_t)
             perror("Error al crear el hilo");
             free(socket_cliente_ptr);
             close(sock_cliente);
-            pthread_mutex_lock(&mutex_clientes);
-            clientes_activos--;
-            // printf("Clientes Activos %d\n", clientes_activos);
-            pthread_mutex_unlock(&mutex_clientes);
         }
         else
+        {
+            pthread_mutex_lock(&mutex_clientes); /// modificar
+            if (actividad == 0)
+                actividad = 1;
+            clientes_activos++;
+            //printf("clientes activos %d\nHilo %lu en ejecucion\n", clientes_activos, hilo_cli);
+            pthread_mutex_unlock(&mutex_clientes);
             pthread_detach(hilo_cli);
+        }
     }
 }
 // Función que manejará cada cliente en un hilo separado
