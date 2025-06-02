@@ -14,9 +14,10 @@
 #include <arpa/inet.h>
 #include <sys/select.h>
 
-int clientes_activos = 0;
-pthread_mutex_t mutex_clientes; //= PTHREAD_MUTEX_INITIALIZER;
-int actividad = 0; ///hubo actividad en el servidor
+// Dispositivos.h
+extern int clientes_activos;
+extern int actividad;
+extern pthread_mutex_t mutex_clientes;
 
 #define LUCES    0
 #define AIRES    1

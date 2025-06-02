@@ -1,5 +1,8 @@
 #include "Menu.h"
-//#include "Habitaciones.h"
+
+int clientes_activos = 0;
+int actividad = 0;
+pthread_mutex_t mutex_clientes = PTHREAD_MUTEX_INITIALIZER;
 
 ///PRIMER MENU, HABITACIONES
 void seleccion_habitaciones_sock(t_habitacion *hab, int sock_cli)

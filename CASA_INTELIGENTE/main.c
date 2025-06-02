@@ -27,7 +27,7 @@ int main(int argc, char * argv[])
     t_cliente cliente;
 
     cliente.tam_dir_cliente = sizeof(cliente.cliente_dir); //un tamaño del socket
-    pthread_mutex_init(&mutex_clientes, NULL);
+    //pthread_mutex_init(&mutex_clientes, NULL);
     pthread_t hilo_accept;
 
     ///CONFIGURAR LOS SOCKETS
