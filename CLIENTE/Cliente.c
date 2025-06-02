@@ -39,8 +39,11 @@ int main() {
         while (getchar() != '\n'); // Limpiar el buffer
         //printf("ACA_CLI: %c\n", opcion);
         
-        if (*opcion == 'I'){
-            send(socket_cliente, "INICIAR", 8, 0);
+        if (*opcion == 'I' || *opcion == 'i'){
+            if(send(socket_cliente, "INICIAR", 8, 0)<0){
+                printf("Cierre inesperado...\n");
+                break;
+            }
             system("clear");
             while (1){
                 bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
@@ -50,20 +53,24 @@ int main() {
                     if(strncmp(buffer, "bye", 3) == 0)
                     {
                         printf("hasta luego! vuelva pronto!... :)\n");
+                        *opcion = 'S';
                         break;
                     }
                     printf("%s", buffer); // mensaje del servidor
                 }
                 else
                 {
-                    
                     printf("Cierre inesperado...\n"); ///manejo de cierre inesperado
                     *opcion = 'S';              ///si recv() no lee nada, cierra la conexion
                     break;
                 }
                 scanf("%s", opcion);
                 while (getchar() != '\n'); // Limpiar el buffer
-                send(socket_cliente, opcion, sizeof(opcion), 0);
+                if(send(socket_cliente, opcion, sizeof(opcion), 0)<0){
+                    printf("Cierre inesperado...\n");
+                    *opcion = 'S';
+                    break;
+                }
                 system("clear");
                 printf("ACA_CLI: %s\n", opcion);
             }

@@ -1,12 +1,8 @@
-#include "Habitaciones.h"
+//#include "Habitaciones.h"
 #include "Menu.h"
 
 #define PUERTO 8080
 #define MAX_CLIENTES 5
-
-int clientes_activos = 0;
-pthread_mutex_t mutex_clientes; //= PTHREAD_MUTEX_INITIALIZER;
-int actividad = 0; ///hubo actividad en el servidor
 
 typedef struct
 {
