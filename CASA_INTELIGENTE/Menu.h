@@ -107,8 +107,10 @@ void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli);
 void menu_aire_sock(t_aire *aire, int sock_cli);
 void menu_luz_sock(t_luz *luz, int sock_cli);
 ///UTILITARIAS
+int recibir_mensaje(int sock, char *buffer, int tam);
+int enviar_mensaje(int sock, const char *msg);
 void vector_opc_disp_sock(const t_habitacion *hab, char *opc_res);
-void validar_opciones_sock(const char *opc_val, const char *menu_atributo, int sock_cli, char *buffer);
+int  validar_opciones_sock(const char *opc_val, const char *menu_atributo, int sock_cli, char *buffer);
 int  Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones);
 int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp);
 

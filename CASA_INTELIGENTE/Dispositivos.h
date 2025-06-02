@@ -14,6 +14,10 @@
 #include <arpa/inet.h>
 #include <sys/select.h>
 
+int clientes_activos = 0;
+pthread_mutex_t mutex_clientes; //= PTHREAD_MUTEX_INITIALIZER;
+int actividad = 0; ///hubo actividad en el servidor
+
 #define LUCES    0
 #define AIRES    1
 #define SMART_TV 2
@@ -21,6 +25,9 @@
 #define TAM_MODO 15
 #define TAM_COLOR 10
 #define TAM_FUENTE 20
+
+#define TODO_OK 1
+#define ERR_COM -1 //Error de comunicacion en sockets
 
 typedef struct
 {
