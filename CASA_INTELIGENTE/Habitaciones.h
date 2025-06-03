@@ -18,7 +18,7 @@ typedef struct
     unsigned cant_luces;
     t_luz * luces;
     unsigned cant_aires;
-    t_aire * aires; ///Va a tener asignacion dinamica de memoria, liberar memoria al finalizar.
+    t_aire * aires;
     int hay_tele;
     t_televisor * tele;
 
@@ -29,6 +29,5 @@ void trozar_aire(char * punt, t_habitacion * h);
 void trozar_luz(char * punt, t_habitacion * h);
 void trozar_tele(char * punt, t_habitacion * h);
 void inicializar_habitaciones(t_habitacion * habitaciones, const char * archivo);
-///PATIO|3|FALSE;50;BLANCO|FALSE;10;ROJO|FALSE;60;VERDE|
-///BANIO|1|FALSE;50;BLANCO|0|0
+int actualizar_casa(t_habitacion *casa, const char *archivo);
 #endif // HABITACIONES_H_INCLUDED
