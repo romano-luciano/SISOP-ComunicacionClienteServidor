@@ -122,7 +122,7 @@ void Menu_Smart_TV_sock(t_televisor *smart, int sock_cli)
 {
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int bytes_escritos;
-    if(pedir_dispositivo_sock(&smart->lock, sock_cli, SMART_TV) != 0) //pido candado
+    if(pedir_dispositivo_sock(&smart->lock, sock_cli, SMART_TV) == 0) //pido candado
         return;
     do
     {
@@ -156,7 +156,7 @@ void menu_aire_sock(t_aire *aire, int sock_cli)
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int bytes_leidos, bytes_escritos;
     
-    if(pedir_dispositivo_sock(&aire->lock, sock_cli, AIRES) != 0)   //pido candado
+    if(pedir_dispositivo_sock(&aire->lock, sock_cli, AIRES) == 0)   //pido candado
         return;
     do
     {
@@ -195,7 +195,7 @@ void menu_luz_sock(t_luz *luz, int sock_cli)
     char buffer[TAM_BUFFER], menu_aux[TAM_BUFFER];
     int  bytes_escritos;
     
-    if(pedir_dispositivo_sock(&luz->lock, sock_cli, LUCES) != 0)// si devuelve 0, tiene el candado
+    if(pedir_dispositivo_sock(&luz->lock, sock_cli, LUCES) == 0)// si devuelve 1, tiene el candado
         return;
     do
     {
@@ -247,7 +247,7 @@ int recibir_mensaje(int sock, char *buffer, int tam) {
         printf("Cliente %d desconectado...\n", sock);
         pthread_mutex_lock(&mutex_clientes);
         clientes_activos--;
-        printf("Clientes activos: %d\n", clientes_activos);
+        printf("Clientes activos :) %d\n", clientes_activos);
         pthread_mutex_unlock(&mutex_clientes);
         return -1; // cliente desconectado o error
     }
@@ -325,7 +325,7 @@ int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp)
     int bytes_leidos;
     if(pthread_rwlock_trywrlock(lock) != 0)
     {
-        do
+        do//entro al while si no me dio el candado
         {
             sprintf(menu_aux, "%s esta siendo modificada...\nIngrese 'A' para actualizar o 'S' para salir\n-->",
                     disp == LUCES?"La luz":disp == AIRES?"El aire":"La tele");
@@ -333,7 +333,7 @@ int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp)
                 return ERR_COM;
         } while((*buffer != 'S' && *buffer != 's') && (pthread_rwlock_trywrlock(lock) != 0));
         if(*buffer == 'S' || *buffer == 's')
-            return 1;
+            return 0;
     }
     return TODO_OK; //optengo el candado
 }
@@ -536,4 +536,3 @@ int smart_volumen_sock(t_televisor * tv, int sock_cli)
     }
     return res?tv->volumen = res:res;
 }
-

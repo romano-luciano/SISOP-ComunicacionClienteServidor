@@ -2,7 +2,7 @@
 #include "Menu.h"
 
 #define PUERTO 8080
-#define MAX_CLIENTES 5
+#define MAX_CLIENTES 2
 
 typedef struct
 {
@@ -72,12 +72,11 @@ int main(int argc, char * argv[])
         pthread_mutex_unlock(&mutex_clientes);
     }
     close(socket_casa);
-    ///canceralia el hilo de accept
+    
     pthread_cancel(hilo_accept);
     printf("Servidor cerrado porque todos los clientes terminaron.\n");
     pthread_mutex_destroy(&mutex_clientes);
-    //grabar archivo modificados
-    //liberar memoria
+    actualizar_casa(habitaciones, "CASA_INTELIGENTE/Archivos/CasaAct.txt");
     return 0;
 }
 //Aceptar clientes y generar hilos
