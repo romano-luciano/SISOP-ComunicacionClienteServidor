@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1748048015 source:/home/chris/SISOP-ComunicacionClienteServidor/CLIENTES/main.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unistd.h>
-	<arpa/inet.h>
-

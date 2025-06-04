@@ -1,8 +1,7 @@
-//#include "Habitaciones.h"
 #include "Menu.h"
 
 #define PUERTO 8080
-#define MAX_CLIENTES 2
+#define MAX_CLIENTES 5
 
 typedef struct
 {
@@ -11,7 +10,7 @@ typedef struct
     int socket_casa;
 }t_cliente;
 
-t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
+t_habitacion CASA[CANT_HABITACIONES];
 
 void* manejar_cliente(void* client_socket_ptr);
 void* aceptar_clientes(void *cliente_t);
@@ -19,7 +18,7 @@ void* aceptar_clientes(void *cliente_t);
 int main(int argc, char * argv[])
 {
     ///CARGAMOS LAS HABITACIONES DE LA CASA A MEMORIA
-    inicializar_habitaciones(habitaciones, argv[1]);
+    inicializar_habitaciones(CASA, argv[1]);
 
     ///INICIAR SERVIDOR
     int socket_casa;
@@ -72,11 +71,15 @@ int main(int argc, char * argv[])
         pthread_mutex_unlock(&mutex_clientes);
     }
     close(socket_casa);
-    
     pthread_cancel(hilo_accept);
+
     printf("Servidor cerrado porque todos los clientes terminaron.\n");
     pthread_mutex_destroy(&mutex_clientes);
-    actualizar_casa(habitaciones, "CASA_INTELIGENTE/Archivos/CasaAct.txt");
+    actualizar_casa(CASA, "Archivos/CasaAct.txt");
+    if(remove(argv[1])!=0)  //elimina
+        puts("No se pudo eliminar");
+    if(rename("Archivos/CasaAct.txt", argv[1])<0)   //cambio nombre
+        puts("No se pudo cambiar el nombre");
     return 0;
 }
 //Aceptar clientes y generar hilos
@@ -89,9 +92,8 @@ void* aceptar_clientes(void *cliente_t)
         int current_clients = clientes_activos;
         pthread_mutex_unlock(&mutex_clientes);
 
-        if (current_clients >= MAX_CLIENTES) {
-            // Esperar un poco para evitar busy wait
-            //usleep(100000); // 100ms
+        if(current_clients >= MAX_CLIENTES) // Esperar un poco para evitar errores
+        {
             sleep(1); // Esperar 1 segundo
             continue;
         }
@@ -120,7 +122,7 @@ void* aceptar_clientes(void *cliente_t)
             if (actividad == 0)
                 actividad = 1;
             clientes_activos++;
-            //printf("clientes activos %d\nHilo %lu en ejecucion\n", clientes_activos, hilo_cli);
+            printf("clientes activos %d\n", clientes_activos);
             pthread_mutex_unlock(&mutex_clientes);
             pthread_detach(hilo_cli);
         }
@@ -130,19 +132,19 @@ void* aceptar_clientes(void *cliente_t)
 void* manejar_cliente(void* client_socket_ptr) 
 {
     int client_socket = *(int*)client_socket_ptr;
-    free(client_socket_ptr);  // Liberar memoria reservada en main
+    free(client_socket_ptr);  // Liberar memoria reservada en la funcion llamadora
 
     char buffer[TAM_BUFFER];
     int bytes_leidos;
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
-    send(client_socket, "Conectado al servidor.\n", 24, 0);
+    send(client_socket, "Bienvenidos al Himalaya :) helado?.\n", 37, 0);
 
     bytes_leidos = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
     if(bytes_leidos){
         buffer[bytes_leidos] = '\0';  // Asegurar terminación de cadena
         if(strncmp(buffer, "INICIAR", 7) == 0){
-            seleccion_habitaciones_sock(habitaciones, client_socket);
+            seleccion_habitaciones_sock(CASA, client_socket);   //entra al menu de la casa
             send(client_socket, "bye", 4, 0);
         }
     }
@@ -151,7 +153,7 @@ void* manejar_cliente(void* client_socket_ptr)
 
     pthread_mutex_lock(&mutex_clientes);
     clientes_activos--;
-    printf("Clientes Activos %d\n", clientes_activos);
+    printf("Clientes Activos: %d\n", clientes_activos);
     pthread_mutex_unlock(&mutex_clientes);
 
     return NULL;

@@ -29,5 +29,5 @@ void trozar_aire(char * punt, t_habitacion * h);
 void trozar_luz(char * punt, t_habitacion * h);
 void trozar_tele(char * punt, t_habitacion * h);
 void inicializar_habitaciones(t_habitacion * habitaciones, const char * archivo);
-int actualizar_casa(t_habitacion *casa, const char *archivo);
+int  actualizar_casa(t_habitacion *casa, const char *archivo);
 #endif // HABITACIONES_H_INCLUDED

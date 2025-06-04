@@ -7,22 +7,22 @@
 #define MENU_HABITACIONES   "CASA INTELIGENTE\n"                \
                             "Elija una habitacion por favor:\n" \
                             "A - Dormitorio grande\n"           \
-                            "B - Banio\n"                        \
+                            "B - Banio\n"                       \
                             "C - Cocina\n"                      \
                             "D - Dormitorio chico\n"            \
                             "L - Living\n"                      \
                             "P - Patio\n"                       \
-                            "S - Salir del SERVIDOR\n"                       \
+                            "S - Salir del SERVIDOR\n"          \
                             "-->"
 #define OPC_MENU_HAB "ABCDLPS"
 /*--------------------------DISPOSITIVOS----------------------------------*/
 
-#define MENU_DISPOSITIVOS_2  "DISPOSITIVOS\n"                                        \
-                            "Elija tipo de dispositivo de: %s\n"                    \
+#define MENU_DISPOSITIVOS_2  "DISPOSITIVOS\n"                                     \
+                            "Elija tipo de dispositivo de: %s\n"                  \
                             "%s"                                                  \
                             "%s"                                                  \
                             "%s"                                                  \
-                            "S - Salir\n"                                           \
+                            "S - Salir\n"                                         \
                             "-->"
 #define OPC_MENU_DISP "ALTS"
 /*---------------------------AIRES----------------------------------------*/
@@ -73,7 +73,7 @@
 #define MENU_FUENTE_TV  "Elija una plataforma para reproducir\n"        \
                         "D - Disney\n"                                  \
                         "N - Netflix\n"                                 \
-                        "P - Prime Video\n"                              \
+                        "P - Prime Video\n"                             \
                         "Y - YouTube\n"                                 \
                         "S - Salir\n"                                   \
                         "-->"
