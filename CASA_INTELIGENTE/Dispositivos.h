@@ -14,7 +14,7 @@
 #include <arpa/inet.h>
 #include <sys/select.h>
 
-// Dispositivos.h
+// Servidor.c
 extern int clientes_activos;
 extern int actividad;
 extern pthread_mutex_t mutex_clientes;
@@ -67,7 +67,7 @@ void smart_encendido(t_televisor *tv);
 int smart_fuente(t_televisor * tv);
 int smart_volumen(t_televisor * tv);
 void modificar_volumen_smart(t_televisor * t);
-
+////////////////////////////////////////////////////////
 /*------------------LUZ-SOCK---------------------------*/
 int luz_encendido_sock(t_luz *luz);
 int luz_color_sock(t_luz *luz, int sock_cli);

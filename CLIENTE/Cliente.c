@@ -76,7 +76,7 @@ int main() {
         }else if (*opcion != 'S' && *opcion != 's'){
             printf("Opcion no valida, intente denuevo:\n");
         }
-    } while (*opcion != 'S');
+    } while (*opcion != 'S' && *opcion != 's');
     
     printf("Se desconecto del servidor...\n");
 
