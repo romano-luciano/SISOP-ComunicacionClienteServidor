@@ -1,4 +1,3 @@
-//#include "Habitaciones.h"
 #include "Menu.h"
 
 #define PUERTO 8080
@@ -11,7 +10,7 @@ typedef struct
     int socket_casa;
 }t_cliente;
 
-t_habitacion habitaciones[CANT_HABITACIONES]; ///variable global?
+t_habitacion habitaciones[CANT_HABITACIONES];
 
 void* manejar_cliente(void* client_socket_ptr);
 void* aceptar_clientes(void *cliente_t);
@@ -90,8 +89,7 @@ void* aceptar_clientes(void *cliente_t)
         pthread_mutex_unlock(&mutex_clientes);
 
         if (current_clients >= MAX_CLIENTES) {
-            // Esperar un poco para evitar busy wait
-            //usleep(100000); // 100ms
+            // Esperar un poco para evitar errores
             sleep(1); // Esperar 1 segundo
             continue;
         }
@@ -120,7 +118,7 @@ void* aceptar_clientes(void *cliente_t)
             if (actividad == 0)
                 actividad = 1;
             clientes_activos++;
-            //printf("clientes activos %d\nHilo %lu en ejecucion\n", clientes_activos, hilo_cli);
+            printf("clientes activos %d\nHilo %lu en ejecucion\n", clientes_activos, hilo_cli);
             pthread_mutex_unlock(&mutex_clientes);
             pthread_detach(hilo_cli);
         }
@@ -136,7 +134,7 @@ void* manejar_cliente(void* client_socket_ptr)
     int bytes_leidos;
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
-    send(client_socket, "Conectado al servidor.\n", 24, 0);
+    send(client_socket, "Conectado al Himalaya :) helado?.\n", 35, 0);
 
     bytes_leidos = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
     if(bytes_leidos){

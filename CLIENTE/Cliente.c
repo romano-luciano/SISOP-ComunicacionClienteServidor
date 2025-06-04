@@ -5,7 +5,7 @@ int main() {
     struct sockaddr_in server_addr;
     char buffer[TAM_BUFFER];
     char opcion[3];
-
+    
     // Crear socket
     socket_cliente = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_cliente < 0) {
@@ -18,12 +18,15 @@ int main() {
     server_addr.sin_port = htons(SERVER_PORT);
     inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);
 
+    puts("Intentando conectarse al servidor...");
     // Conectar al servidor
     if (connect(socket_cliente, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         perror("Error conectando al servidor");
         close(socket_cliente);
         return 1;
     }
+    //cola de listen???
+    //print de espera???
 
     // Recibir mensaje de bienvenida
     int bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
