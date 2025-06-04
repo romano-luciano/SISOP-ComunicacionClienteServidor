@@ -75,7 +75,11 @@ int main(int argc, char * argv[])
     pthread_cancel(hilo_accept);
     printf("Servidor cerrado porque todos los clientes terminaron.\n");
     pthread_mutex_destroy(&mutex_clientes);
-    actualizar_casa(habitaciones, "CASA_INTELIGENTE/Archivos/CasaAct.txt");
+    actualizar_casa(habitaciones, "Archivos/CasaAct.txt");
+    if(remove(argv[1])!=0)
+        puts("No se pudo eliminar");//elimina
+    if(rename("Archivos/CasaAct.txt", argv[1])<0)
+        puts("No se pudo cambiar el nombre");//cambio nombre
     return 0;
 }
 //Aceptar clientes y generar hilos
@@ -118,7 +122,7 @@ void* aceptar_clientes(void *cliente_t)
             if (actividad == 0)
                 actividad = 1;
             clientes_activos++;
-            printf("clientes activos %d\nHilo %lu en ejecucion\n", clientes_activos, hilo_cli);
+            printf("clientes activos %d\n", clientes_activos);
             pthread_mutex_unlock(&mutex_clientes);
             pthread_detach(hilo_cli);
         }
