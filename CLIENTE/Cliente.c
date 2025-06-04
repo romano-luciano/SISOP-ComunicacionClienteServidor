@@ -25,9 +25,7 @@ int main() {
         close(socket_cliente);
         return 1;
     }
-    //cola de listen???
-    //print de espera???
-
+    
     // Recibir mensaje de bienvenida
     int bytes = recv(socket_cliente, buffer, TAM_BUFFER - 1, 0);
     if (bytes > 0) {
@@ -40,8 +38,6 @@ int main() {
         mostrar_menu();
         scanf("%s", opcion);
         while (getchar() != '\n'); // Limpiar el buffer
-        //printf("ACA_CLI: %c\n", opcion);
-        
         if (*opcion == 'I' || *opcion == 'i'){
             if(send(socket_cliente, "INICIAR", 8, 0)<0){
                 printf("Cierre inesperado...\n");
@@ -75,12 +71,11 @@ int main() {
                     break;
                 }
                 system("clear");
-                printf("ACA_CLI: %s\n", opcion);
+                //printf("ACA_CLI: %s\n", opcion);
             }
         }else if (*opcion != 'S' && *opcion != 's'){
             printf("Opcion no valida, intente denuevo:\n");
         }
-        //printf("ACA_sali: %s\n", opcion);
     } while (*opcion != 'S');
     
     printf("Se desconecto del servidor...\n");
