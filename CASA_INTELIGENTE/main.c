@@ -138,7 +138,7 @@ void* manejar_cliente(void* client_socket_ptr)
     int bytes_leidos;
 
     printf("Cliente conectado. Socket: %d\n", client_socket);
-    send(client_socket, "Conectado al Himalaya :) helado?.\n", 35, 0);
+    send(client_socket, "Bienvenidos al Himalaya :) helado?.\n", 37, 0);
 
     bytes_leidos = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
     if(bytes_leidos){
