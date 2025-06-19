@@ -1,6 +1,5 @@
 #include "Menu.h"
 
-//#define PUERTO 8080
 #define MAX_CLIENTES 5
 
 typedef struct
@@ -24,8 +23,9 @@ int main(int argc, char * argv[])
     int socket_casa;
     struct sockaddr_in CASA_addr;
     t_cliente cliente;
-    int puerto_casa = atoi(argv[2]);
-
+    int puerto_casa;
+    leer_archivo_configuracion(argv[2],&puerto_casa);
+    
     cliente.tam_dir_cliente = sizeof(cliente.cliente_dir); //un tamaño del socket
     //pthread_mutex_init(&mutex_clientes, NULL);
     pthread_t hilo_accept;

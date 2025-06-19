@@ -5,7 +5,7 @@ EJECUCION
 -------------------------------------------------------------------------
 Para la ejecución del Servidor lo primero que se debe hacer es ubicarse en la carpeta 'SISOP-ComunicacionClienteServidor/CASA_INTELIGENTE'.
 Después para la compilación <gcc main.c Servidor.c Habitaciones.c Dispositivos.c Menu.c -o Servidor -lrt -pthread>
-y se ejecuta con <./Servidor "Archivos/Habitaciones.txt">
+y se ejecuta con <./Servidor "Archivos/Habitaciones.txt" "../Configuracion.txt">
 
 Para el cliente se debe ir a la carpeta 'SISOP-ComunicacionClienteServidor/CLIENTE'
 Después para compilar <gcc Cliente.c -o Cliente>

@@ -335,3 +335,27 @@ int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp)
     }
     return TODO_OK; //optengo el candado
 }
+/// Lectura archivo de configuración
+int leer_archivo_configuracion(const char * nombre_archivo, int * puerto_server)
+{
+    char buffer[100];
+    FILE * pf = fopen(nombre_archivo,"rt");
+    if(!pf)
+    {
+        perror("Error al abrir archivo de configuración.");
+        return 0;
+    }
+    // Leer puerto
+    if (fgets(buffer, sizeof(buffer), pf))
+    {
+        sscanf(buffer, "Puerto del servidor: %d", puerto_server);
+    }
+    else
+    {
+        fclose(pf);
+        return 0;
+    }
+    fclose(pf);
+    return 1;
+    
+}

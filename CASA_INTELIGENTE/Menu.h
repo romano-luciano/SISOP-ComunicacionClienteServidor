@@ -2,7 +2,6 @@
 #define MENU_H_INCLUDED
 
 #include "Habitaciones.h"
-
 /*-------------------------HABITACIONES-------------------------*/
 #define MENU_HABITACIONES   "CASA INTELIGENTE\n"                \
                             "Elija una habitacion por favor:\n" \
@@ -113,5 +112,5 @@ void vector_opc_disp_sock(const t_habitacion *hab, char *opc_res);
 int  validar_opciones_sock(const char *opc_val, const char *menu_atributo, int sock_cli, char *buffer);
 int  Validar_Nro_Dispositivo_sock(int cant_dispositivos, int sock_cli, char *buffer, char *menu_opciones);
 int  pedir_dispositivo_sock(pthread_rwlock_t *lock, int sock_cli, int disp);
-
+int leer_archivo_configuracion(const char * nombre_archivo, int * puerto_server);
 #endif // MENU_H_INCLUDED

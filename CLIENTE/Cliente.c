@@ -1,19 +1,25 @@
 #include "Cliente.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
     int socket_cliente;
     struct sockaddr_in server_addr;
     char buffer[TAM_BUFFER];
     char opcion[3];
-    int puerto_server =  validar_puerto(atoi(argv[1]));
-    
+    int puerto_server;
+    char SERVER_IP[TAM_IP];
+    if(!leer_archivo_configuracion("../Configuracion.txt",&puerto_server,SERVER_IP))
+    {
+        perror("Error al leer archivo de configuración.");
+        return 0;
+        
+    }
     // Crear socket
     socket_cliente = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_cliente < 0) {
         perror("Error creando socket");
         return 1;
     }
-
     // Configurar dirección del servidor
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(puerto_server);
@@ -83,4 +89,46 @@ int main(int argc, char* argv[]) {
 
     close(socket_cliente);
     return 0;
+}
+
+void mostrar_menu() {
+    ///menu de inicio del servidor
+    printf("\n--- MENÚ ---\n");
+    printf("I. Iniciar Servidor\n");
+    printf("S. Salir\n");
+    printf("Seleccione una opción: ");
+}
+
+int leer_archivo_configuracion(const char * nombre_archivo, int * puerto_server, char * server_ip)
+{
+    char buffer[100];
+    FILE * pf = fopen(nombre_archivo,"rt");
+    if(!pf)
+    {
+        perror("Error al abrir archivo de configuración.");
+        return 0;
+    }
+    // Leer puerto
+    if (fgets(buffer, sizeof(buffer), pf))
+    {
+        sscanf(buffer, "Puerto del servidor: %d", puerto_server);
+    }
+    else
+    {
+        fclose(pf);
+        return 0;
+    }
+    // Leer IP
+    if (fgets(buffer, sizeof(buffer), pf))
+    {
+        sscanf(buffer, "IP del servidor: %s", server_ip);
+    }
+    else
+    {
+        fclose(pf);
+        return 0;
+    }
+    fclose(pf);
+    return 1;
+    
 }

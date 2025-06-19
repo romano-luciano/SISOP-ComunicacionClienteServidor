@@ -1,0 +1,2 @@
+Puerto del servidor: 5001
+IP del servidor: 127.0.0.1
