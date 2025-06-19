@@ -1,10 +1,11 @@
 #include "Cliente.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     int socket_cliente;
     struct sockaddr_in server_addr;
     char buffer[TAM_BUFFER];
     char opcion[3];
+    int puerto_server =  validar_puerto(atoi(argv[1]));
     
     // Crear socket
     socket_cliente = socket(AF_INET, SOCK_STREAM, 0);
@@ -15,7 +16,7 @@ int main() {
 
     // Configurar dirección del servidor
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(SERVER_PORT);
+    server_addr.sin_port = htons(puerto_server);
     inet_pton(AF_INET, SERVER_IP, &server_addr.sin_addr);
 
     puts("Intentando conectarse al servidor...");

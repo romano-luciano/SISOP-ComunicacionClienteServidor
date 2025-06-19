@@ -5,7 +5,6 @@
 #include <arpa/inet.h>
 
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 8080
 #define TAM_BUFFER 1024
 
 void mostrar_menu() {
@@ -14,4 +13,16 @@ void mostrar_menu() {
     printf("I. Iniciar Servidor\n");
     printf("S. Salir\n");
     printf("Seleccione una opción: ");
+}
+int validar_puerto(int puerto) {
+    if(puerto <= 1024 || puerto >= 49151){
+        do
+        {
+            printf("El puerto no es valido, ingrese otro puerto.\n");
+            scanf("%d", &puerto);
+            while (getchar() != '\n');
+            system("clear");
+        } while (puerto <= 1024 || puerto >= 49151);
+    }
+    return puerto;
 }
