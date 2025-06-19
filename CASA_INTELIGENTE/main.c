@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-#define PUERTO 8080
+//#define PUERTO 8080
 #define MAX_CLIENTES 5
 
 typedef struct
@@ -24,6 +24,7 @@ int main(int argc, char * argv[])
     int socket_casa;
     struct sockaddr_in CASA_addr;
     t_cliente cliente;
+    int puerto_casa = atoi(argv[2]);
 
     cliente.tam_dir_cliente = sizeof(cliente.cliente_dir); //un tamaño del socket
     //pthread_mutex_init(&mutex_clientes, NULL);
@@ -37,7 +38,7 @@ int main(int argc, char * argv[])
     }
     
     CASA_addr.sin_family = AF_INET;
-    CASA_addr.sin_port = htons(PUERTO);
+    CASA_addr.sin_port = htons(puerto_casa);
     CASA_addr.sin_addr.s_addr = INADDR_ANY;
 
     //Enlazo al puerto con bind
@@ -52,7 +53,7 @@ int main(int argc, char * argv[])
         close(socket_casa);
         exit(EXIT_FAILURE);
     }
-    printf("Servidor escuchando en el puerto %d...\n", PUERTO);
+    printf("Servidor escuchando en el puerto %d...\n", puerto_casa);
     cliente.socket_casa = socket_casa;  // Asignar el socket correctamente
 
     ///CREACION DE HILO PARA MULTIPLES CLIENTES
