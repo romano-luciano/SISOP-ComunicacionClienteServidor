@@ -1,5 +1,6 @@
 # SISOP-ComunicacionClienteServidor
-Repositorio para desarrollar el ejercicio 2 del trabajo practico. Comunicación Cliente-Servidor con Threads y Sockets  Proyecto desarrollado en lenguaje C
+Repositorio para desarrollar el ejercicio 2 del trabajo practico. Comunicación Cliente-Servidor con Threads y Sockets  Proyecto desarrollado en lenguaje C. El cual consiste en un servidor que gestiona las modificaciones de los diferentes dispositivos de una casa. Se podrán conectar como máximo 5 clientes simultáneamente.
+El servidor al iniciar lee y carga los datos de la casa desde el archivo <Habitaciones.txt> y tanto el del cliente como el del servidor, leen el archivo <configuracion.txt> donde cargan la IP y puerto de escucha.
 
 EJECUCION
 -------------------------------------------------------------------------

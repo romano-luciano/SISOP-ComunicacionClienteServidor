@@ -78,7 +78,6 @@ int main(int argc, char* argv[])
                     break;
                 }
                 system("clear");
-                //printf("ACA_CLI: %s\n", opcion);
             }
         }else if (*opcion != 'S' && *opcion != 's'){
             printf("Opcion no valida, intente denuevo:\n");
@@ -92,7 +91,6 @@ int main(int argc, char* argv[])
 }
 
 void mostrar_menu() {
-    ///menu de inicio del servidor
     printf("\n--- MENÚ ---\n");
     printf("I. Iniciar Servidor\n");
     printf("S. Salir\n");
